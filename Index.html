@@ -1,0 +1,113 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="CountOnUs turns business data into clear reports and actionable insights.">
+  <title>CountOnUs | Smarter Business Reports</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0b1020;
+      color: #f5f7ff;
+      line-height: 1.6;
+    }
+    nav {
+      display: flex; justify-content: space-between;
+      align-items: center; padding: 22px 7%;
+      border-bottom: 1px solid #252d43;
+    }
+    .logo { font-size: 25px; font-weight: bold; color: #a8b5ff; }
+    nav a { color: #e0e5f5; text-decoration: none; margin-left: 20px; }
+    .hero { text-align: center; padding: 90px 20px 65px; }
+    .tag {
+      display: inline-block; padding: 6px 13px;
+      border: 1px solid #46518a; border-radius: 30px;
+      color: #b9c3ff; font-size: 13px;
+    }
+    h1 { font-size: clamp(38px, 7vw, 66px); line-height: 1.12; margin: 24px auto; max-width: 850px; }
+    .accent { color: #a8b5ff; }
+    .hero p { color: #bac3d9; max-width: 650px; margin: 0 auto 30px; font-size: 18px; }
+    .button {
+      display: inline-block; background: #a8b5ff; color: #10152b;
+      padding: 13px 22px; border-radius: 9px; text-decoration: none;
+      font-weight: bold; border: 0; cursor: pointer;
+    }
+    section { padding: 55px 7%; }
+    .section-title { text-align: center; font-size: 32px; }
+    .muted { color: #bac3d9; text-align: center; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); gap: 18px; margin-top: 35px; }
+    .card { padding: 25px; background: #141b30; border: 1px solid #29334d; border-radius: 15px; }
+    .card h3 { margin-top: 0; }
+    .card p { color: #bac3d9; }
+    .price { font-size: 35px; font-weight: bold; margin: 10px 0; }
+    .price small { font-size: 14px; color: #bac3d9; font-weight: normal; }
+    .featured { border-color: #a8b5ff; }
+    .center { text-align: center; }
+    footer { padding: 28px; text-align: center; color: #bac3d9; border-top: 1px solid #252d43; }
+    @media(max-width:600px) {
+      nav { padding: 18px 5%; }
+      nav a { margin-left: 10px; font-size: 14px; }
+      .hero { padding-top: 65px; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="logo">CountOnUs</div>
+    <div><a href="#features">Features</a><a href="#pricing">Pricing</a></div>
+  </nav>
+
+  <main>
+    <div class="hero">
+      <span class="tag">BUSINESS ANALYTICS, MADE CLEAR</span>
+      <h1>Your data. Your insights.<br><span class="accent">Better decisions.</span></h1>
+      <p>Turn business data into easy-to-understand reports, AI-powered summaries and practical insights to help you make informed decisions.</p>
+      <a class="button" href="#pricing">Explore plans</a>
+    </div>
+
+    <section id="features">
+      <h2 class="section-title">Less time analysing. More time growing.</h2>
+      <p class="muted">A clearer view of the numbers that matter to your business.</p>
+      <div class="grid">
+        <div class="card"><h3>📊 Scheduled reports</h3><p>Designed for daily, weekly or monthly reporting workflows.</p></div>
+        <div class="card"><h3>✨ AI summaries</h3><p>Make complex business data easier to understand with concise summaries.</p></div>
+        <div class="card"><h3>💡 Actionable insights</h3><p>Discover trends and opportunities to investigate in your business data.</p></div>
+      </div>
+    </section>
+
+    <section id="pricing">
+      <h2 class="section-title">Simple, transparent plans</h2>
+      <p class="muted">Choose the plan that fits your reporting needs.</p>
+      <div class="grid">
+        <div class="card">
+          <h3>Pro</h3>
+          <p>For individuals and small businesses.</p>
+          <div class="price">$49<small> / month</small></div>
+          <p>• One account<br>• Business reporting workflow<br>• AI summary features when available<br>• CountOnUs branding</p>
+          <a class="button" href="mailto:countonus.business@gmail.com?subject=CountOnUs%20Pro%20Enquiry">Enquire about Pro</a>
+        </div>
+        <div class="card featured">
+          <h3>Master</h3>
+          <p>For agencies managing multiple clients.</p>
+          <div class="price">$99<small> / month</small></div>
+          <p>• Up to 50 client profiles planned<br>• Agency branding planned<br>• Reporting and AI insights planned<br>• Designed for agency workflows</p>
+          <a class="button" href="mailto:countonus.business@gmail.com?subject=CountOnUs%20Master%20Enquiry">Enquire about Master</a>
+        </div>
+      </div>
+      <p class="muted">Annual plans and integrations are not yet available for purchase. Contact us to discuss future access.</p>
+    </section>
+
+    <section class="center">
+      <h2>Ready to make more sense of your data?</h2>
+      <p class="muted">Contact us to learn more about CountOnUs.</p>
+      <a class="button" href="mailto:countonus.business@gmail.com?subject=CountOnUs%20Enquiry">Contact CountOnUs</a>
+    </section>
+  </main>
+
+  <footer>© 2026 CountOnUs. All rights reserved. <br>Website preview — reporting, payments and integrations are not yet connected.</footer>
+</body>
+</html>
