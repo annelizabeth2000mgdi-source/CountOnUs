@@ -925,7 +925,27 @@ refresh();
 
 /* =========================================================
    ADD-ON CODE GOES HERE
-   Future features can be added below this comment and above
+ // FIX: Make the CSV picker open directly from the user's tap.
+document.addEventListener("click", function (e) {
+  const button = e.target.closest('[data-action="upload"]');
+  if (!button) return;
+
+  e.preventDefault();
+
+  const fileInput = document.getElementById("csvFile");
+  document.getElementById("page-data").classList.add("active");
+
+  document.querySelectorAll(".page").forEach(function (page) {
+    page.classList.toggle("active", page.id === "page-data");
+  });
+
+  document.querySelectorAll(".nav-btn[data-page]").forEach(function (nav) {
+    nav.classList.toggle("active", nav.dataset.page === "data");
+  });
+
+  fileInput.click();
+}, true); 
+Future features can be added below this comment and above
    the closing </script> tag, without replacing the main app.
 
    Example:
