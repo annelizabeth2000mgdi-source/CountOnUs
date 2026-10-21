@@ -2,962 +2,271 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#224A33">
-<title>CountOnUs — Business Intelligence</title>
-<style>
-:root {
-  --green:#224A33;
-  --green2:#315C43;
-  --ivory:#F7F4EC;
-  --champagne:#D8C9A9;
-  --white:#FFFEFA;
-  --ink:#202820;
-  --muted:#7C8178;
-  --line:#E5E0D5;
-  --red:#A34E42;
-  --radius:15px;
-}
-*{box-sizing:border-box}
-body{margin:0;background:var(--ivory);color:var(--ink);font-family:Arial,Helvetica,sans-serif;font-size:14px}
-button,input,select,textarea{font:inherit}
-button{cursor:pointer}
-button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid #B59A65;outline-offset:3px}
-button:disabled{opacity:.45;cursor:not-allowed}
-h1,h2,h3,.serif{font-family:Georgia,'Times New Roman',serif;font-weight:400}
-h1{font-size:34px;margin:8px 0}
-h2{font-size:24px;margin:0 0 12px}
-h3{font-size:19px;margin:0 0 8px}
-p{line-height:1.6}
-small,.muted{color:var(--muted)}
-a{color:inherit}
-button,.button{border:0}
-.app{display:flex;min-height:100vh}
-.sidebar{width:245px;flex-shrink:0;background:var(--green);color:var(--white);padding:28px 17px;display:flex;flex-direction:column;min-height:100vh}
-.brand{padding:0 12px 28px;border-bottom:1px solid #ffffff26}
-.brand-name{font-family:Georgia,serif;font-size:26px;letter-spacing:-.8px}
-.brand-tag{color:#D8C9A9;font-size:10px;letter-spacing:2px;text-transform:uppercase;margin-top:7px}
-.nav-label{font-size:10px;letter-spacing:1.7px;color:#c3cdbf;margin:24px 12px 9px}
-.nav-btn{display:flex;gap:12px;align-items:center;text-align:left;width:100%;padding:12px;border-radius:9px;background:transparent;color:#e4e9df;margin:2px 0;font-size:13px}
-.nav-btn:hover,.nav-btn.active{background:#ffffff17;color:#fff}
-.nav-btn.active{box-shadow:inset 3px 0 var(--champagne)}
-.nav-icon{width:20px;text-align:center;font-size:16px}
-.side-bottom{margin-top:auto;padding:18px 12px 0;border-top:1px solid #ffffff26}
-.profile-dot{display:inline-grid;place-items:center;width:35px;height:35px;border-radius:50%;background:var(--champagne);color:var(--green);font-family:Georgia,serif;font-size:16px;margin-right:9px}
-.profile-row{display:flex;align-items:center;font-size:12px}
-.workspace{flex:1;min-width:0}
-.topbar{height:65px;background:var(--white);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 32px;gap:12px}
-.top-left{display:flex;align-items:center;gap:12px}
-.top-right{display:flex;align-items:center;gap:12px}
-.status{font-size:11px;color:var(--green);background:#E7EEE6;border-radius:30px;padding:7px 11px}
-main{max-width:1500px;margin:auto;padding:30px 32px 55px}
-.page{display:none}
-.page.active{display:block}
-.eyebrow{font-size:10px;letter-spacing:2px;color:var(--muted);text-transform:uppercase}
-.page-heading{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:26px}
-.page-heading p{color:var(--muted);margin:8px 0 0}
-.btn{display:inline-flex;justify-content:center;align-items:center;gap:8px;border-radius:8px;padding:11px 15px;font-size:12px;font-weight:600;transition:.15s}
-.btn-primary{background:var(--green);color:white}
-.btn-primary:hover{background:var(--green2)}
-.btn-light{background:var(--white);border:1px solid var(--line);color:var(--ink)}
-.btn-light:hover{background:#F0EBDD}
-.btn-danger{background:#F6E8E4;color:var(--red)}
-.btn-small{padding:7px 10px;font-size:11px}
-.btn-block{width:100%}
-.grid{display:grid;gap:17px}
-.stats{grid-template-columns:repeat(4,minmax(0,1fr));margin-bottom:20px}
-.card{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:21px;min-width:0}
-.stat-label{font-size:12px;color:var(--muted)}
-.stat-value{font-family:Georgia,serif;font-size:30px;margin:13px 0 8px;overflow-wrap:anywhere}
-.stat-foot{font-size:11px;color:var(--muted)}
-.positive{color:var(--green)}
-.two-col{grid-template-columns:minmax(0,1.65fr) minmax(250px,1fr);margin-bottom:20px}
-.card-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}
-.card-heading h2{font-size:22px;margin:0}
-.chart{height:225px;width:100%;display:block}
-.chart text{font-size:10px;fill:var(--muted)}
-.chart .gridline{stroke:var(--line);stroke-width:1}
-.chart .bar{fill:var(--green)}
-.chart .bar:hover{fill:#52775D}
-.empty-chart{display:grid;place-items:center;height:180px;text-align:center;color:var(--muted);font-size:12px}
-.quick-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.quick-action{background:var(--ivory);border:1px solid var(--line);border-radius:10px;padding:15px 10px;text-align:left;min-height:95px;color:var(--ink)}
-.quick-action:hover{border-color:#A7B5A2}
-.quick-action .qa-icon{font-size:19px;display:block;margin-bottom:10px}
-.quick-action strong{font-size:12px}
-.quick-action small{display:block;margin-top:5px;font-size:10px}
-.table-wrap{width:100%;overflow-x:auto}
-table{border-collapse:collapse;width:100%;min-width:520px;text-align:left}
-th{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);font-weight:600}
-td,th{padding:14px 12px;border-bottom:1px solid var(--line);font-size:12px}
-tbody tr:last-child td{border-bottom:0}
-tbody tr:hover{background:#faf8f1}
-.pill{display:inline-block;padding:5px 9px;border-radius:20px;font-size:10px;background:#E7EEE6;color:var(--green)}
-.pill.pending{background:#F3EBDD;color:#84692F}
-.pill.off{background:#F0EDE6;color:#79776F}
-.search{background:var(--white);border:1px solid var(--line);border-radius:8px;padding:10px 12px;width:100%;min-width:0;color:var(--ink)}
-.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px}
-.toolbar .search{flex:1;min-width:160px}
-.toolbar select{background:var(--white);border:1px solid var(--line);border-radius:8px;padding:10px;color:var(--ink)}
-.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:17px}
-.field{display:flex;flex-direction:column;gap:7px;margin-bottom:16px}
-.field label{font-size:12px;font-weight:600}
-.field input,.field select,.field textarea{width:100%;padding:12px;border:1px solid var(--line);background:var(--white);border-radius:8px;color:var(--ink)}
-.field textarea{min-height:90px;resize:vertical}
-.field input[type=checkbox]{width:auto}
-.field small{font-weight:400;font-size:11px}
-.section-card{margin-bottom:18px}
-.section-card>p{color:var(--muted);font-size:12px}
-.callout{padding:15px 17px;border-left:3px solid var(--champagne);background:#F1EDE2;font-size:12px;line-height:1.7;border-radius:0 8px 8px 0;margin:16px 0}
-.integration-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
-.integration{border:1px solid var(--line);border-radius:12px;padding:18px;background:var(--white)}
-.integration-icon{font-size:24px;margin-bottom:13px}
-.integration h3{font-size:18px}
-.integration p{font-size:12px;color:var(--muted);min-height:38px}
-.integration .btn{margin-top:8px}
-.schedule-list{display:grid;gap:12px}
-.schedule-item{display:flex;justify-content:space-between;align-items:center;gap:14px;border:1px solid var(--line);border-radius:10px;padding:15px;background:var(--white)}
-.schedule-item strong{font-size:13px}
-.schedule-item small{display:block;margin-top:5px}
-.plan-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
-.plan{border:1px solid var(--line);border-radius:14px;padding:24px;background:var(--white)}
-.plan.featured{border-color:var(--green);box-shadow:inset 0 3px var(--green)}
-.plan-price{font-family:Georgia,serif;font-size:32px;margin:14px 0 5px}
-.plan ul{padding-left:18px;line-height:2.1;font-size:12px;color:#535A51}
-.settings-row{display:flex;align-items:center;justify-content:space-between;gap:15px;padding:16px 0;border-bottom:1px solid var(--line)}
-.settings-row:last-child{border-bottom:0}
-.settings-row strong{font-size:13px}
-.settings-row p{font-size:11px;color:var(--muted);margin:5px 0 0}
-.switch{width:42px;height:24px;border-radius:20px;background:#C9C7BE;position:relative;flex-shrink:0}
-.switch:after{content:"";position:absolute;left:3px;top:3px;width:18px;height:18px;background:white;border-radius:50%;transition:.15s}
-.switch.on{background:var(--green)}
-.switch.on:after{left:21px}
-.mobile-menu{display:none}
-.footer-note{text-align:center;color:var(--muted);font-size:10px;margin-top:28px}
-.toast{position:fixed;right:20px;bottom:20px;background:var(--green);color:white;padding:14px 18px;border-radius:10px;box-shadow:0 8px 30px #0002;z-index:100;max-width:330px;font-size:12px;display:none}
-.toast.show{display:block;animation:fade .2s}
-@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-.modal-backdrop{position:fixed;inset:0;background:#15221980;z-index:90;display:none;align-items:center;justify-content:center;padding:18px}
-.modal-backdrop.open{display:flex}
-.modal{width:min(510px,100%);max-height:90vh;overflow:auto;background:var(--white);border-radius:16px;padding:24px}
-.modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
-.modal-head h2{margin:0}
-.icon-btn{width:35px;height:35px;border-radius:8px;background:var(--ivory);color:var(--ink);font-size:18px}
-.dropzone{padding:30px 15px;border:1px dashed #B6B5A8;background:#FAF8F2;text-align:center;border-radius:12px}
-.dropzone input{max-width:100%;margin-top:15px}
-.report-output{white-space:pre-wrap;background:#F7F4EC;padding:17px;border-radius:10px;font-size:12px;line-height:1.7;overflow-wrap:anywhere}
-.hidden{display:none!important}
-@media(max-width:1000px){
- .sidebar{width:210px}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}
- .integration-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
- main{padding:24px 20px 40px}.topbar{padding:0 20px}
-}
-@media(max-width:700px){
- .app{display:block}.sidebar{display:none;position:fixed;inset:0 auto 0 0;width:260px;z-index:80;overflow:auto;min-height:100vh}
- .sidebar.mobile-open{display:flex}.mobile-menu{display:inline-flex}
- .topbar{height:60px;padding:0 13px}.top-right .status{display:none}
- main{padding:22px 13px 35px}
- .page-heading{flex-direction:column;align-items:stretch}
- .page-heading>.btn{align-self:flex-start}
- h1{font-size:30px}.two-col{grid-template-columns:1fr}
- .stats{gap:10px}.card{padding:16px}.stat-value{font-size:25px}
- .integration-grid,.plan-grid{grid-template-columns:1fr}
- .form-grid{grid-template-columns:1fr}
- .schedule-item{align-items:flex-start}
- .topbar .brand-name{font-size:21px}
-}
-</style>
-</head>
-<body>
-<div class="app">
-  <aside class="sidebar" id="sidebar">
-    <div class="brand">
-      <div class="brand-name">CountOnUs<span style="color:#D8C9A9">.</span></div>
-      <div class="brand-tag">Clarity in every number</div>
-    </div>
-    <div class="nav-label">WORKSPACE</div>
-    <button class="nav-btn active" data-page="overview"><span class="nav-icon">⌂</span> Overview</button>
-    <button class="nav-btn" data-page="reports"><span class="nav-icon">▤</span> Reports</button>
-    <button class="nav-btn" data-page="data"><span class="nav-icon">▦</span> Data sources</button>
-    <button class="nav-btn" data-page="schedules"><span class="nav-icon">◷</span> Schedules</button>
-    <div class="nav-label">MANAGEMENT</div>
-    <button class="nav-btn" data-page="integrations"><span class="nav-icon">⌘</span> Integrations</button>
-    <button class="nav-btn" data-page="plans"><span class="nav-icon">◇</span> Plans & pricing</button>
-    <button class="nav-btn" data-page="settings"><span class="nav-icon">⚙</span> Settings</button>
-    <div class="side-bottom">
-      <div class="profile-row"><span class="profile-dot">C</span><span><strong id="sidebarName">My Workspace</strong><br><small style="color:#c3cdbf">Demo workspace</small></span></div>
-      <button class="nav-btn" data-page="settings" style="margin-top:15px">⚙ Workspace settings</button>
-    </div>
-  </aside>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#224A33">
 
-  <section class="workspace">
-    <header class="topbar">
-      <div class="top-left">
-        <button class="btn btn-light mobile-menu" id="menuBtn" aria-label="Open navigation">☰</button>
-        <span class="brand-name serif" style="font-size:22px">CountOnUs<span style="color:#B59A65">.</span></span>
-      </div>
-      <div class="top-right">
-        <span class="status">● Browser demo mode</span>
-        <button class="btn btn-primary btn-small" id="topCreate">＋ New report</button>
-      </div>
-    </header>
+  <title>CountOnUs — Business Intelligence</title>
 
-    <main>
-      <!-- OVERVIEW -->
-      <section class="page active" id="page-overview">
-        <div class="page-heading">
-          <div><div class="eyebrow" id="welcomeDate">YOUR BUSINESS AT A GLANCE</div>
-            <h1 class="serif">Good to have you here.</h1>
-            <p>Your numbers, organised. Your next decision, clearer.</p>
-          </div>
-          <button class="btn btn-primary" data-action="upload">＋ Import CSV</button>
-        </div>
+  <style>
+    /* ===== PART 1: BRAND DESIGN ===== */
 
-        <div class="grid stats">
-          <div class="card"><div class="stat-label">Revenue in uploaded data</div><div class="stat-value" id="statRevenue">₹0</div><div class="stat-foot">Calculated from your data</div></div>
-          <div class="card"><div class="stat-label">Rows analysed</div><div class="stat-value" id="statRows">0</div><div class="stat-foot">Across imported CSV files</div></div>
-          <div class="card"><div class="stat-label">Reports created</div><div class="stat-value" id="statReports">0</div><div class="stat-foot">Saved in this browser</div></div>
-          <div class="card"><div class="stat-label">Scheduled reports</div><div class="stat-value" id="statSchedules">0</div><div class="stat-foot">Demo schedules configured</div></div>
-        </div>
-
-        <div class="grid two-col">
-          <div class="card">
-            <div class="card-heading"><div><div class="eyebrow">PERFORMANCE</div><h2>Revenue overview</h2></div><span class="pill">CSV data</span></div>
-            <div id="revenueChart" class="empty-chart">Import a CSV containing a revenue or amount column to see your chart.</div>
-            <div class="stat-foot" id="chartNote">No revenue data imported yet.</div>
-          </div>
-          <div class="card">
-            <div class="card-heading"><div><div class="eyebrow">YOUR WORKSPACE</div><h2>Quick actions</h2></div></div>
-            <div class="quick-actions">
-              <button class="quick-action" data-action="upload"><span class="qa-icon">⇧</span><strong>Import data</strong><small>Upload a CSV file</small></button>
-              <button class="quick-action" data-action="create"><span class="qa-icon">▤</span><strong>Create report</strong><small>Analyse your data</small></button>
-              <button class="quick-action" data-page="schedules"><span class="qa-icon">◷</span><strong>Schedule report</strong><small>Set a demo schedule</small></button>
-              <button class="quick-action" data-page="integrations"><span class="qa-icon">⌘</span><strong>Connect a source</strong><small>Explore integrations</small></button>
-            </div>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-heading"><h2>Recent reports</h2><button class="btn btn-light btn-small" data-page="reports">View all →</button></div>
-          <div class="table-wrap"><table><thead><tr><th>Report</th><th>Created</th><th>Rows</th><th>Status</th><th>Action</th></tr></thead><tbody id="recentReports"></tbody></table></div>
-        </div>
-      </section>
-
-      <!-- REPORTS -->
-      <section class="page" id="page-reports">
-        <div class="page-heading"><div><div class="eyebrow">YOUR ANALYTICS LIBRARY</div><h1>Reports</h1><p>Review, search, export and create reports from your imported data.</p></div><button class="btn btn-primary" data-action="create">＋ Create report</button></div>
-        <div class="toolbar"><input class="search" id="reportSearch" placeholder="Search reports..."><select id="reportFilter"><option value="all">All reports</option><option value="ready">Ready</option></select><button class="btn btn-light" data-action="export-all">Export list</button></div>
-        <div class="card"><div class="table-wrap"><table><thead><tr><th>Report name</th><th>Created</th><th>Rows</th><th>Status</th><th>Actions</th></tr></thead><tbody id="allReports"></tbody></table></div><div id="noReports" class="empty-chart hidden">No reports found. Import data and create your first report.</div></div>
-      </section>
-
-      <!-- DATA -->
-      <section class="page" id="page-data">
-        <div class="page-heading"><div><div class="eyebrow">YOUR BUSINESS DATA</div><h1>Data sources</h1><p>Import CSV files to calculate useful business metrics in your browser.</p></div><button class="btn btn-primary" data-action="upload">⇧ Upload CSV</button></div>
-        <div class="callout"><strong>Privacy note:</strong> in this demo, your CSV is processed in your browser. The saved demo data stays in this browser's local storage. Do not use this demo for sensitive customer or financial records.</div>
-        <div class="card section-card">
-          <div class="card-heading"><h2>Import a CSV file</h2><span class="pill">Available now</span></div>
-          <div class="dropzone"><div style="font-size:27px">⇧</div><strong>Choose a CSV from your device</strong><p class="muted">Example columns: date, product, revenue, quantity, orders.</p><input type="file" id="csvFile" accept=".csv,text/csv"></div>
-          <div id="csvPreview" class="hidden" style="margin-top:20px"><h3>Import result</h3><div id="csvMessage" class="callout"></div><div class="table-wrap"><table><thead id="previewHead"></thead><tbody id="previewBody"></tbody></table></div></div>
-        </div>
-        <div class="card"><div class="card-heading"><h2>Imported datasets</h2><button class="btn btn-light btn-small" data-action="clear-data">Clear demo data</button></div><div class="table-wrap"><table><thead><tr><th>File</th><th>Imported</th><th>Rows</th><th>Revenue detected</th><th>Action</th></tr></thead><tbody id="datasetsTable"></tbody></table></div></div>
-      </section>
-
-      <!-- SCHEDULES -->
-      <section class="page" id="page-schedules">
-        <div class="page-heading"><div><div class="eyebrow">REPORT AUTOMATION</div><h1>Schedules</h1><p>Configure when a report should be prepared. Automatic delivery will require a backend later.</p></div><button class="btn btn-primary" data-action="schedule">＋ New schedule</button></div>
-        <div class="callout">These schedules are saved as settings only. GitHub Pages cannot run background jobs or send scheduled emails on its own. We will connect Supabase and an email service for that later.</div>
-        <div class="card"><div class="card-heading"><h2>Your schedules</h2><span class="pill">Configuration only</span></div><div class="schedule-list" id="scheduleList"></div></div>
-      </section>
-
-      <!-- INTEGRATIONS -->
-      <section class="page" id="page-integrations">
-        <div class="page-heading"><div><div class="eyebrow">CONNECTED WORKFLOWS</div><h1>Integrations</h1><p>Choose the sources you want CountOnUs to support.</p></div></div>
-        <div class="callout">These are integration previews, not live connections. The buttons let you save your intended sources. Real access requires secure authentication and API setup.</div>
-        <div class="grid integration-grid">
-          <div class="integration"><div class="integration-icon">▤</div><h3>CSV uploads</h3><p>Import spreadsheets and analyse rows locally.</p><span class="pill">Available</span><br><button class="btn btn-light btn-block" data-action="upload">Upload CSV</button></div>
-          <div class="integration"><div class="integration-icon">◉</div><h3>Google Analytics</h3><p>Plan a connection to website traffic and conversion metrics.</p><span class="pill off" id="googleStatus">Not connected</span><br><button class="btn btn-light btn-block" data-connect="Google Analytics">Set up connection</button></div>
-          <div class="integration"><div class="integration-icon">🛍</div><h3>Shopify</h3><p>Plan a connection to store orders and product sales.</p><span class="pill off" id="shopifyStatus">Not connected</span><br><button class="btn btn-light btn-block" data-connect="Shopify">Set up connection</button></div>
-          <div class="integration"><div class="integration-icon">✉</div><h3>Email reports</h3><p>Configure future email delivery for your scheduled reports.</p><span class="pill off" id="emailStatus">Not connected</span><br><button class="btn btn-light btn-block" data-connect="Email delivery">Set up delivery</button></div>
-          <div class="integration"><div class="integration-icon">✧</div><h3>AI summaries</h3><p>Generate basic summaries from the data imported into this demo.</p><span class="pill">Basic summary available</span><br><button class="btn btn-light btn-block" data-action="create">Generate report</button></div>
-          <div class="integration"><div class="integration-icon">⬡</div><h3>Supabase</h3><p>Future authentication, cloud database and secure user accounts.</p><span class="pill pending">Setup later</span><br><button class="btn btn-light btn-block" data-action="supabase">View setup plan</button></div>
-        </div>
-      </section>
-
-      <!-- PLANS -->
-      <section class="page" id="page-plans">
-        <div class="page-heading"><div><div class="eyebrow">SIMPLE, TRANSPARENT PRICING</div><h1>Plans & pricing</h1><p>Preview your product plans. No payments are processed in this demo.</p></div></div>
-        <div class="grid plan-grid">
-          <div class="plan"><div class="eyebrow">FOR INDIVIDUALS</div><h2 style="margin-top:10px">Pro</h2><div class="plan-price">$49 <span style="font:12px Arial;color:var(--muted)">/ month</span></div><p class="muted">For founders who want clearer reporting.</p><ul><li>One workspace</li><li>CSV imports</li><li>Report creation</li><li>Basic data summaries</li><li>Future scheduled reports</li><li>CountOnUs branding</li></ul><button class="btn btn-light btn-block" data-plan="Pro">Select Pro</button></div>
-          <div class="plan featured"><div class="eyebrow">FOR AGENCIES</div><h2 style="margin-top:10px">Master</h2><div class="plan-price">$99 <span style="font:12px Arial;color:var(--muted)">/ month</span></div><p class="muted">For agencies managing multiple clients.</p><ul><li>Up to 50 client profiles planned</li><li>Agency branding planned</li><li>Report creation</li><li>Basic data summaries</li><li>Future scheduled reports</li><li>White-label features planned</li></ul><button class="btn btn-primary btn-block" data-plan="Master">Select Master</button></div>
-        </div>
-        <div class="callout">Selecting a plan here only saves your preference in this browser. It does not create a subscription, charge a card, or activate paid features. Payment integration comes later.</div>
-        <div class="card"><h3>Your selected plan</h3><p id="selectedPlan" class="muted">No plan selected.</p></div>
-      </section>
-
-      <!-- SETTINGS -->
-      <section class="page" id="page-settings">
-        <div class="page-heading"><div><div class="eyebrow">MAKE IT YOURS</div><h1>Settings</h1><p>Manage your local demo workspace.</p></div><button class="btn btn-primary" data-action="save-settings">Save settings</button></div>
-        <div class="card section-card">
-          <div class="card-heading"><h2>Workspace profile</h2></div>
-          <div class="form-grid">
-            <div class="field"><label for="workspaceName">Workspace name</label><input id="workspaceName" placeholder="My Workspace"></div>
-            <div class="field"><label for="ownerName">Your display name</label><input id="ownerName" placeholder="Workspace owner"></div>
-            <div class="field"><label for="currency">Display currency</label><select id="currency"><option value="INR">INR — Indian Rupee (₹)</option><option value="USD">USD — US Dollar ($)</option><option value="GBP">GBP — British Pound (£)</option><option value="EUR">EUR — Euro (€)</option></select></div>
-            <div class="field"><label for="reportPeriod">Default reporting period</label><select id="reportPeriod"><option>Monthly</option><option>Weekly</option><option>Daily</option></select></div>
-          </div>
-        </div>
-        <div class="card section-card">
-          <div class="card-heading"><h2>Preferences</h2></div>
-          <div class="settings-row"><div><strong>Compact notifications</strong><p>Show short confirmation messages for actions.</p></div><button class="switch on" id="notificationsSwitch" aria-label="Toggle notifications" aria-pressed="true"></button></div>
-          <div class="settings-row"><div><strong>Keep demo data in this browser</strong><p>Save imported datasets and reports using local storage.</p></div><button class="switch on" id="persistSwitch" aria-label="Toggle local data persistence" aria-pressed="true"></button></div>
-        </div>
-        <div class="card"><div class="card-heading"><h2>Data & privacy</h2></div><p class="muted">Export a copy of your local demo data or clear it from this browser.</p><div class="toolbar"><button class="btn btn-light" data-action="backup">Export backup</button><button class="btn btn-danger" data-action="reset">Reset demo workspace</button></div></div>
-      </section>
-
-      <div class="footer-note">COUNTONUS · YOUR GIVING, YOUR GROWING BUSINESS · FRONTEND DEMO</div>
-    </main>
-  </section>
-</div>
-
-<!-- NEW REPORT MODAL -->
-<div class="modal-backdrop" id="reportModal">
- <div class="modal">
-  <div class="modal-head"><h2>Create a report</h2><button class="icon-btn" data-action="close-modal" aria-label="Close">×</button></div>
-  <div class="field"><label for="newReportName">Report name</label><input id="newReportName" placeholder="Monthly business overview"></div>
-  <div class="field"><label for="reportDataset">Dataset</label><select id="reportDataset"></select></div>
-  <div class="callout">The report will use imported CSV data and create a basic summary. It will not fetch data from live services.</div>
-  <button class="btn btn-primary btn-block" data-action="generate">Generate report</button>
- </div>
-</div>
-
-<!-- SCHEDULE MODAL -->
-<div class="modal-backdrop" id="scheduleModal">
- <div class="modal">
-  <div class="modal-head"><h2>New schedule</h2><button class="icon-btn" data-action="close-modal" aria-label="Close">×</button></div>
-  <div class="field"><label for="scheduleName">Schedule name</label><input id="scheduleName" placeholder="Weekly sales report"></div>
-  <div class="field"><label for="scheduleFrequency">Frequency</label><select id="scheduleFrequency"><option>Daily</option><option selected>Weekly</option><option>Monthly</option></select></div>
-  <div class="field"><label for="scheduleEmail">Recipient email (optional)</label><input type="email" id="scheduleEmail" placeholder="you@example.com"><small>Stored only as a local demo setting; no email will be sent.</small></div>
-  <button class="btn btn-primary btn-block" data-action="save-schedule">Save schedule</button>
- </div>
-</div>
-
-<!-- REPORT VIEW MODAL -->
-<div class="modal-backdrop" id="viewModal">
- <div class="modal">
-  <div class="modal-head"><h2 id="viewTitle">Report</h2><button class="icon-btn" data-action="close-modal" aria-label="Close">×</button></div>
-  <div class="report-output" id="reportOutput"></div>
-  <div class="toolbar" style="margin-top:17px;margin-bottom:0"><button class="btn btn-primary" data-action="download-current">Download report</button><button class="btn btn-light" data-action="close-modal">Close</button></div>
- </div>
-</div>
-
-<div class="toast" id="toast" role="status" aria-live="polite"></div>
-
-<script>
-/* =========================================================
-   COUNTONUS FRONTEND
-   Browser-only demo. No secrets or API keys belong here.
-   ========================================================= */
-(function(){
-"use strict";
-alert("CountOnUs JavaScript is running!");
-const STORAGE_KEY = "countonus_demo_v1";
-const $ = (id) => document.getElementById(id);
-const state = {
-  datasets: [],
-  reports: [],
-  schedules: [],
-  connections: {},
-  settings: {
-    workspaceName:"My Workspace",
-    ownerName:"",
-    currency:"INR",
-    reportPeriod:"Monthly",
-    notifications:true,
-    persist:true,
-    selectedPlan:""
-  },
-  currentReportId:null
-};
-
-let toastTimer = null;
-let lastImportedDatasetId = null;
-
-function id(){
-  return "co_" + Date.now().toString(36) + "_" + Math.random().toString(36).slice(2,7);
-}
-function escapeHTML(value){
-  return String(value ?? "").replace(/[&<>"']/g, ch => ({
-    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
-  }[ch]));
-}
-function notify(message){
-  if(!state.settings.notifications) return;
-  $("toast").textContent = message;
-  $("toast").classList.add("show");
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(()=>$("toast").classList.remove("show"),2800);
-}
-function save(){
-  if(!state.settings.persist) return;
-  try{
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-  }catch(e){
-    notify("Browser storage is full. Export a backup or remove some data.");
-  }
-}
-function load(){
-  try{
-    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
-    if(!saved) return;
-    state.datasets = Array.isArray(saved.datasets) ? saved.datasets : [];
-    state.reports = Array.isArray(saved.reports) ? saved.reports : [];
-    state.schedules = Array.isArray(saved.schedules) ? saved.schedules : [];
-    state.connections = saved.connections || {};
-    state.settings = {...state.settings,...(saved.settings || {})};
-    if(!state.settings.persist) state.settings.persist = true;
-  }catch(e){
-    console.warn("Could not load demo data.",e);
-  }
-}
-function fmtNumber(value){
-  return Number(value || 0).toLocaleString(undefined,{maximumFractionDigits:2});
-}
-function currency(value){
-  const c = state.settings.currency || "INR";
-  try{
-    return new Intl.NumberFormat(undefined,{
-      style:"currency",currency:c,maximumFractionDigits:2
-    }).format(Number(value)||0);
-  }catch(e){return c+" "+fmtNumber(value);}
-}
-function prettyDate(value){
-  try{return new Date(value).toLocaleDateString(undefined,{year:"numeric",month:"short",day:"numeric"});}
-  catch(e){return String(value||"");}
-}
-function shortDate(value){
-  try{return new Date(value).toLocaleDateString(undefined,{month:"short",day:"numeric"});}
-  catch(e){return String(value||"");}
-}
-function getDataset(datasetId){
-  return state.datasets.find(d=>d.id===datasetId) || null;
-}
-function getReport(reportId){
-  return state.reports.find(r=>r.id===reportId) || null;
-}
-function currentDataset(){
-  return getDataset(lastImportedDatasetId) || state.datasets[0] || null;
-}
-
-/* CSV parser supports commas, quoted cells and escaped quotes. */
-function parseCSV(text){
-  const rows = [];
-  let row = [], cell = "", quoted = false;
-  text = text.replace(/^\uFEFF/,"");
-  for(let i=0;i<text.length;i++){
-    const ch = text[i];
-    if(quoted){
-      if(ch === '"' && text[i+1] === '"'){cell+='"';i++;}
-      else if(ch === '"') quoted = false;
-      else cell += ch;
-    }else{
-      if(ch === '"' && cell.length===0) quoted=true;
-      else if(ch === ","){row.push(cell);cell="";}
-      else if(ch === "\n"){row.push(cell);rows.push(row);row=[];cell="";}
-      else if(ch !== "\r") cell+=ch;
+    :root {
+      --green: #224A33;
+      --green-light: #315C43;
+      --ivory: #F7F4EC;
+      --champagne: #D8C9A9;
+      --white: #FFFEFA;
+      --text: #26352B;
+      --muted: #788077;
+      --border: #E6E1D6;
     }
-  }
-  row.push(cell);
-  rows.push(row);
-  return rows.filter(r=>r.some(c=>String(c).trim()!==""));
-}
-function numericValue(value){
-  if(value===null || value===undefined) return null;
-  const s=String(value).trim();
-  if(!s) return null;
-  const cleaned=s.replace(/[₹$€£,\s]/g,"").replace(/^\((.*)\)$/,"-$1");
-  if(!/^-?\d+(\.\d+)?$/.test(cleaned)) return null;
-  const n=Number(cleaned);
-  return Number.isFinite(n) ? n : null;
-}
-function detectColumns(headers){
-  const norm = headers.map(h=>String(h).trim().toLowerCase().replace(/[\s_-]+/g,""));
-  const find = names => {
-    const index=norm.findIndex(h=>names.includes(h));
-    return index<0 ? null : index;
-  };
-  return {
-    revenue:find(["revenue","sales","amount","total","totalamount","netsales","grosssales","value","price"]),
-    quantity:find(["quantity","qty","units","unitssold","count"]),
-    product:find(["product","productname","item","itemname","name","title"]),
-    date:find(["date","createdat","orderdate","day","timestamp"]),
-    order:find(["orderid","ordernumber","orders","transactionid"])
-  };
-}
-function analyseDataset(dataset){
-  const cols=dataset.columns || detectColumns(dataset.headers);
-  const validRows=dataset.rows || [];
-  const revenueRows=cols.revenue===null ? [] : validRows.map(r=>numericValue(r[cols.revenue])).filter(n=>n!==null);
-  const revenue=revenueRows.reduce((a,b)=>a+b,0);
-  const quantities=cols.quantity===null ? [] : validRows.map(r=>numericValue(r[cols.quantity])).filter(n=>n!==null);
-  const quantity=quantities.reduce((a,b)=>a+b,0);
-  const products={};
-  if(cols.product!==null && cols.revenue!==null){
-    validRows.forEach(r=>{
-      const name=String(r[cols.product]||"Unknown").trim()||"Unknown";
-      const val=numericValue(r[cols.revenue]);
-      if(val!==null) products[name]=(products[name]||0)+val;
-    });
-  }
-  const bestProduct=Object.entries(products).sort((a,b)=>b[1]-a[1])[0]||null;
-  const dates={};
-  if(cols.date!==null && cols.revenue!==null){
-    validRows.forEach(r=>{
-      const date=String(r[cols.date]||"").trim();
-      const val=numericValue(r[cols.revenue]);
-      if(date && val!==null) dates[date]=(dates[date]||0)+val;
-    });
-  }
-  return {
-    rows:validRows.length,
-    hasRevenue:cols.revenue!==null && revenueRows.length>0,
-    revenue, quantity, bestProduct, dates, cols,
-    numericRevenueRows:revenueRows.length
-  };
-}
-function makeSummary(dataset){
-  const a=analyseDataset(dataset);
-  const lines=[
-    "COUNTONUS BUSINESS REPORT",
-    "================================",
-    "Dataset: "+dataset.name,
-    "Created: "+new Date().toLocaleString(),
-    "",
-    "OVERVIEW",
-    "Rows analysed: "+a.rows,
-    a.hasRevenue ? "Total of detected revenue/amount column: "+currency(a.revenue) : "Revenue: Not detected. Add a revenue, sales or amount column.",
-    a.quantity ? "Total quantity/units: "+fmtNumber(a.quantity) : "Quantity: No recognised quantity column detected.",
-    "",
-    "OBSERVATIONS"
-  ];
-  if(a.bestProduct) lines.push("Highest-revenue product in the imported rows: "+a.bestProduct[0]+" ("+currency(a.bestProduct[1])+").");
-  else lines.push("Product performance: Include product and revenue/amount columns to compare products.");
-  if(a.hasRevenue && a.numericRevenueRows) lines.push("Average value per row with a numeric amount: "+currency(a.revenue/a.numericRevenueRows)+".");
-  if(a.hasRevenue && a.revenue<0) lines.push("The total is negative; check whether the file includes refunds, costs or adjustments.");
-  if(a.rows===0) lines.push("The dataset contains no data rows.");
-  lines.push("",
-    "LIMITATIONS",
-    "This report uses simple calculations on the imported CSV only.",
-    "It does not verify source accuracy or establish causes of business changes.",
-    "No live accounts, external APIs or AI service were used."
-  );
-  return lines.join("\n");
-}
-function renderChart(){
-  const host=$("revenueChart"), note=$("chartNote");
-  const ds=state.datasets.filter(d=>analyseDataset(d).hasRevenue);
-  if(!ds.length){
-    host.className="empty-chart";
-    host.textContent="Import a CSV containing a revenue or amount column to see your chart.";
-    note.textContent="No revenue data imported yet.";
-    return;
-  }
-  const dataset=ds[ds.length-1], a=analyseDataset(dataset);
-  let entries=Object.entries(a.dates);
-  if(entries.length===0){
-    const vals=dataset.rows.slice(0,8).map((r,i)=>({
-      name:String(i+1), value:numericValue(r[a.cols.revenue])||0
-    }));
-    entries=vals.map(x=>[x.name,x.value]);
-  }
-  entries=entries.slice(-10);
-  const w=600,h=230,left=45,right=12,top=12,bottom=33;
-  const chartW=w-left-right, chartH=h-top-bottom;
-  const max=Math.max(1,...entries.map(e=>Math.max(0,e[1])));
-  const step=chartW/Math.max(entries.length,1);
-  let svg=`<svg class="chart" viewBox="0 0 ${w} ${h}" role="img" aria-label="Revenue from imported CSV data">`;
-  for(let j=0;j<4;j++){
-    const y=top+j*chartH/3;
-    svg+=`<line class="gridline" x1="${left}" y1="${y}" x2="${w-right}" y2="${y}"/>`;
-    svg+=`<text x="${left-8}" y="${y+4}" text-anchor="end">${escapeHTML(fmtNumber(max*(1-j/3)))}</text>`;
-  }
-  entries.forEach((e,i)=>{
-    const val=Math.max(0,e[1]);
-    const bh=val/max*(chartH-4);
-    const bw=Math.max(3,step*.54);
-    const x=left+i*step+(step-bw)/2;
-    const y=top+chartH-bh;
-    svg+=`<rect class="bar" x="${x}" y="${y}" width="${bw}" height="${bh}" rx="3"><title>${escapeHTML(e[0])}: ${escapeHTML(currency(e[1]))}</title></rect>`;
-    const label=String(e[0]).length>10?String(e[0]).slice(0,9)+"…":String(e[0]);
-    svg+=`<text x="${x+bw/2}" y="${h-9}" text-anchor="middle">${escapeHTML(label)}</text>`;
-  });
-  svg+="</svg>";
-  host.className="";
-  host.innerHTML=svg;
-  note.textContent="Source: "+dataset.name+". "+a.rows+" rows; total "+currency(a.revenue)+".";
-}
-function renderOverview(){
-  const rows=state.datasets.reduce((sum,d)=>sum+d.rows.length,0);
-  const revenue=state.datasets.reduce((sum,d)=>sum+(analyseDataset(d).hasRevenue?analyseDataset(d).revenue:0),0);
-  $("statRevenue").textContent=currency(revenue);
-  $("statRows").textContent=fmtNumber(rows);
-  $("statReports").textContent=state.reports.length;
-  $("statSchedules").textContent=state.schedules.length;
-  $("welcomeDate").textContent=new Date().toLocaleDateString(undefined,{weekday:"long",month:"long",day:"numeric"}).toUpperCase();
-  const reports=state.reports.slice().reverse().slice(0,5);
-  $("recentReports").innerHTML=reports.length?reports.map(r=>`
-    <tr><td><strong>${escapeHTML(r.name)}</strong></td><td>${escapeHTML(prettyDate(r.createdAt))}</td>
-    <td>${fmtNumber(r.rows)}</td><td><span class="pill">Ready</span></td>
-    <td><button class="btn btn-light btn-small" data-view="${escapeHTML(r.id)}">Open</button></td></tr>`).join("") :
-    `<tr><td colspan="5" class="muted">No reports yet. Import a CSV and create your first report.</td></tr>`;
-  renderChart();
-}
-function renderReports(){
-  const q=($("reportSearch").value||"").toLowerCase();
-  const filter=$("reportFilter").value;
-  const list=state.reports.slice().reverse().filter(r=>{
-    return r.name.toLowerCase().includes(q) && (filter==="all"||filter==="ready");
-  });
-  $("allReports").innerHTML=list.map(r=>`
-    <tr><td><strong>${escapeHTML(r.name)}</strong></td><td>${escapeHTML(prettyDate(r.createdAt))}</td>
-    <td>${fmtNumber(r.rows)}</td><td><span class="pill">Ready</span></td>
-    <td><button class="btn btn-light btn-small" data-view="${escapeHTML(r.id)}">Open</button>
-    <button class="btn btn-light btn-small" data-download="${escapeHTML(r.id)}">↓</button>
-    <button class="btn btn-danger btn-small" data-delete-report="${escapeHTML(r.id)}">×</button></td></tr>`).join("");
-  $("noReports").classList.toggle("hidden",list.length!==0);
-}
-function renderDatasets(){
-  $("datasetsTable").innerHTML=state.datasets.length?state.datasets.slice().reverse().map(d=>{
-    const a=analyseDataset(d);
-    return `<tr><td><strong>${escapeHTML(d.name)}</strong></td><td>${escapeHTML(prettyDate(d.importedAt))}</td>
-    <td>${fmtNumber(d.rows.length)}</td><td>${a.hasRevenue?escapeHTML(currency(a.revenue)):"Not detected"}</td>
-    <td><button class="btn btn-light btn-small" data-use-dataset="${escapeHTML(d.id)}">Use</button>
-    <button class="btn btn-danger btn-small" data-delete-dataset="${escapeHTML(d.id)}">×</button></td></tr>`;
-  }).join(""):`<tr><td colspan="5" class="muted">No CSV files imported yet.</td></tr>`;
-}
-function renderSchedules(){
-  $("scheduleList").innerHTML=state.schedules.length?state.schedules.map(s=>`
-    <div class="schedule-item"><div><strong>${escapeHTML(s.name)}</strong><small>${escapeHTML(s.frequency)} · ${escapeHTML(s.email||"No recipient configured")}</small><small class="muted">Saved ${escapeHTML(prettyDate(s.createdAt))} · Configuration only</small></div>
-    <button class="btn btn-danger btn-small" data-delete-schedule="${escapeHTML(s.id)}">Remove</button></div>`).join(""):`<div class="empty-chart">No schedules configured yet. Create one to save a reporting schedule.</div>`;
-}
-function renderConnections(){
-  const mapping={"Google Analytics":"googleStatus","Shopify":"shopifyStatus","Email delivery":"emailStatus"};
-  Object.entries(mapping).forEach(([name,el])=>{
-    const connected=!!state.connections[name];
-    $(el).textContent=connected?"Setup requested":"Not connected";
-    $(el).className="pill "+(connected?"pending":"off");
-  });
-}
-function renderPlan(){
-  $("selectedPlan").textContent=state.settings.selectedPlan?
-    state.settings.selectedPlan+" selected in demo mode. No subscription or payment is active.":
-    "No plan selected.";
-}
-function renderSettings(){
-  $("workspaceName").value=state.settings.workspaceName||"";
-  $("ownerName").value=state.settings.ownerName||"";
-  $("currency").value=state.settings.currency||"INR";
-  $("reportPeriod").value=state.settings.reportPeriod||"Monthly";
-  setSwitch("notificationsSwitch",!!state.settings.notifications);
-  setSwitch("persistSwitch",!!state.settings.persist);
-  $("sidebarName").textContent=state.settings.workspaceName||"My Workspace";
-}
-function setSwitch(id,on){
-  $(id).classList.toggle("on",on);
-  $(id).setAttribute("aria-pressed",String(on));
-}
-function refresh(){
-  renderOverview();renderReports();renderDatasets();renderSchedules();
-  renderConnections();renderPlan();renderSettings();
-}
-function showPage(page){
-  const target=$("page-"+page);
-  if(!target){notify("That section is not available.");return;}
-  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
-  target.classList.add("active");
-  document.querySelectorAll(".nav-btn[data-page]").forEach(b=>b.classList.toggle("active",b.dataset.page===page));
-  $("sidebar").classList.remove("mobile-open");
-  window.scrollTo({top:0,behavior:"smooth"});
-}
-function openModal(id){
-  $(id).classList.add("open");
-}
-function closeModals(){
-  document.querySelectorAll(".modal-backdrop").forEach(m=>m.classList.remove("open"));
-}
-function openReportCreator(){
-  const select=$("reportDataset");
-  select.innerHTML=state.datasets.length?state.datasets.map(d=>`<option value="${escapeHTML(d.id)}">${escapeHTML(d.name)}</option>`).join(""):`<option value="">No dataset imported</option>`;
-  $("newReportName").value=state.datasets.length?"Business overview — "+shortDate(new Date()):"My first report";
-  openModal("reportModal");
-}
-function createReport(){
-  const dataset=getDataset($("reportDataset").value);
-  if(!dataset){notify("Import a CSV dataset first.");closeModals();showPage("data");return;}
-  const name=$("newReportName").value.trim();
-  if(!name){notify("Enter a report name first.");return;}
-  const report={
-    id:id(),name, datasetId:dataset.id, rows:dataset.rows.length,
-    createdAt:new Date().toISOString(), summary:makeSummary(dataset)
-  };
-  state.reports.push(report);
-  save();refresh();closeModals();openReport(report.id);
-  notify("Report created successfully.");
-}
-function openReport(reportId){
-  const r=getReport(reportId);
-  if(!r){notify("Report not found.");return;}
-  state.currentReportId=r.id;
-  $("viewTitle").textContent=r.name;
-  $("reportOutput").textContent=r.summary;
-  openModal("viewModal");
-}
-function downloadText(filename,text,mime="text/plain;charset=utf-8"){
-  const blob=new Blob([text],{type:mime});
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement("a");
-  a.href=url;a.download=filename;
-  document.body.appendChild(a);a.click();a.remove();
-  setTimeout(()=>URL.revokeObjectURL(url),1000);
-}
-function downloadReport(reportId){
-  const r=getReport(reportId);
-  if(!r){notify("Report not found.");return;}
-  downloadText(r.name.replace(/[^a-z0-9_-]+/gi,"_")+".txt",r.summary);
-}
-function exportReportList(){
-  const headers=["name","createdAt","rows","datasetId"];
-  const lines=[headers.join(",")].concat(state.reports.map(r=>headers.map(k=>csvCell(r[k])).join(",")));
-  downloadText("countonus-reports.csv",lines.join("\n"),"text/csv;charset=utf-8");
-}
-function csvCell(value){
-  const s=String(value??"");
-  return '"'+s.replace(/"/g,'""')+'"';
-}
-function renderPreview(dataset){
-  $("csvPreview").classList.remove("hidden");
-  $("csvMessage").textContent=`Imported ${dataset.rows.length} data rows from "${dataset.name}". Columns detected: ${dataset.headers.join(", ")||"none"}.`;
-  $("previewHead").innerHTML="<tr>"+dataset.headers.slice(0,8).map(h=>`<th>${escapeHTML(h)}</th>`).join("")+"</tr>";
-  $("previewBody").innerHTML=dataset.rows.slice(0,5).map(r=>"<tr>"+r.slice(0,8).map(v=>`<td>${escapeHTML(v)}</td>`).join("")+"</tr>").join("");
-}
-async function importFile(file){
-  if(!file)return;
-  if(!file.name.toLowerCase().endsWith(".csv") && file.type!=="text/csv"){
-    notify("Please select a CSV file.");return;
-  }
-  if(file.size>10*1024*1024){
-    notify("This demo accepts CSV files up to 10 MB.");return;
-  }
-  try{
-    const text=await file.text();
-    const parsed=parseCSV(text);
-    if(parsed.length<2){notify("This CSV needs a header row and at least one data row.");return;}
-    const headers=parsed[0].map((h,i)=>String(h).trim()||"Column "+(i+1));
-    const rows=parsed.slice(1).filter(r=>r.some(c=>String(c).trim()!=="")).map(r=>headers.map((_,i)=>r[i]??""));
-    if(!rows.length){notify("No data rows found.");return;}
-    const dataset={
-      id:id(),name:file.name,importedAt:new Date().toISOString(),
-      headers,rows,columns:detectColumns(headers)
-    };
-    state.datasets.push(dataset);
-    lastImportedDatasetId=dataset.id;
-    save();refresh();renderPreview(dataset);
-    showPage("data");
-    notify("CSV imported and analysed.");
-  }catch(e){
-    notify("Could not read this file. Please try another CSV.");
-  }finally{
-    $("csvFile").value="";
-  }
-}
-function saveSchedule(){
-  const name=$("scheduleName").value.trim();
-  if(!name){notify("Enter a schedule name.");return;}
-  const email=$("scheduleEmail").value.trim();
-  if(email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){notify("Enter a valid email address or leave it blank.");return;}
-  state.schedules.push({
-    id:id(),name,frequency:$("scheduleFrequency").value,email,
-    createdAt:new Date().toISOString()
-  });
-  save();refresh();closeModals();notify("Schedule saved in demo mode.");
-}
-function saveSettings(){
-  state.settings.workspaceName=$("workspaceName").value.trim()||"My Workspace";
-  state.settings.ownerName=$("ownerName").value.trim();
-  state.settings.currency=$("currency").value;
-  state.settings.reportPeriod=$("reportPeriod").value;
-  save();refresh();notify("Workspace settings saved.");
-}
-function backup(){
-  const data=JSON.stringify(state,null,2);
-  downloadText("countonus-demo-backup.json",data,"application/json;charset=utf-8");
-  notify("Backup export started.");
-}
-function resetWorkspace(){
-  if(!confirm("Reset this demo workspace? All saved reports, schedules and imported data in this browser will be cleared."))return;
-  localStorage.removeItem(STORAGE_KEY);
-  state.datasets=[];state.reports=[];state.schedules=[];state.connections={};
-  state.settings={
-    workspaceName:"My Workspace",ownerName:"",currency:"INR",
-    reportPeriod:"Monthly",notifications:true,persist:true,selectedPlan:""
-  };
-  lastImportedDatasetId=null;
-  $("csvPreview").classList.add("hidden");
-  save();refresh();notify("Demo workspace reset.");
-}
-function deleteDataset(datasetId){
-  if(!confirm("Delete this imported dataset and its associated reports?"))return;
-  state.datasets=state.datasets.filter(d=>d.id!==datasetId);
-  state.reports=state.reports.filter(r=>r.datasetId!==datasetId);
-  if(lastImportedDatasetId===datasetId)lastImportedDatasetId=null;
-  save();refresh();notify("Dataset deleted.");
-}
-function deleteReport(reportId){
-  if(!confirm("Delete this report?"))return;
-  state.reports=state.reports.filter(r=>r.id!==reportId);
-  save();refresh();notify("Report deleted.");
-}
-function deleteSchedule(scheduleId){
-  state.schedules=state.schedules.filter(s=>s.id!==scheduleId);
-  save();refresh();notify("Schedule removed.");
-}
-function setupConnection(name){
-  state.connections[name]=true;
-  save();renderConnections();
-  const guidance={
-    "Google Analytics":"To connect Google Analytics for real, we will need a Google Cloud project, OAuth consent configuration and Analytics Data API access.",
-    "Shopify":"To connect Shopify for real, we will need a Shopify app, appropriate API scopes, secure OAuth and server-side token storage.",
-    "Email delivery":"To send scheduled emails, we will need a backend scheduler and an email provider. This button does not send email.",
-  };
-  alert(name+" — setup checklist\n\n"+(guidance[name]||"Backend configuration will be needed.")+"\n\nYour setup preference has been saved locally. No account was connected.");
-}
-function showSupabasePlan(){
-  alert("SUPABASE SETUP PLAN\n\n1. Create a free Supabase project.\n2. Configure authentication.\n3. Create tables for profiles, datasets, reports and schedules.\n4. Enable Row Level Security (RLS) and test user-specific policies.\n5. Put the Supabase project URL and publishable key in the frontend configuration.\n6. Keep secret/service-role keys on the server only.\n7. Add server-side functions for secure integrations and scheduled email delivery.\n\nNo Supabase project is connected yet.");
-}
-function action(name){
-  switch(name){
-    case "upload":showPage("data");$("csvFile").click();break;
-    case "create":openReportCreator();break;
-    case "schedule":openModal("scheduleModal");break;
-    case "close-modal":closeModals();break;
-    case "generate":createReport();break;
-    case "save-schedule":saveSchedule();break;
-    case "save-settings":saveSettings();break;
-    case "backup":backup();break;
-    case "reset":resetWorkspace();break;
-    case "export-all":exportReportList();break;
-    case "clear-data":
-      if(confirm("Clear all imported datasets and their reports? Schedules and settings will remain.")){
-        state.datasets=[];state.reports=[];lastImportedDatasetId=null;
-        save();refresh();$("csvPreview").classList.add("hidden");notify("Imported data cleared.");
-      }break;
-    case "download-current":downloadReport(state.currentReportId);break;
-    case "supabase":showSupabasePlan();break;
-  }
-}
 
-/* Event delegation: future buttons can reuse data-action and data-page. */
-document.addEventListener("click",function(e){
-  const pageButton=e.target.closest("[data-page]");
-  if(pageButton){showPage(pageButton.dataset.page);return;}
+    * {
+      box-sizing: border-box;
+    }
 
-  const actionButton=e.target.closest("[data-action]");
-  if(actionButton){action(actionButton.dataset.action);return;}
+    body {
+      margin: 0;
+      background: var(--ivory);
+      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
+    }
 
-  const viewButton=e.target.closest("[data-view]");
-  if(viewButton){openReport(viewButton.dataset.view);return;}
+    button,
+    input,
+    select {
+      font: inherit;
+    }
 
-  const downloadButton=e.target.closest("[data-download]");
-  if(downloadButton){downloadReport(downloadButton.dataset.download);return;}
+    button {
+      cursor: pointer;
+    }
 
-  const deleteReportButton=e.target.closest("[data-delete-report]");
-  if(deleteReportButton){deleteReport(deleteReportButton.dataset.deleteReport);return;}
+    .app-shell {
+      display: flex;
+      min-height: 100vh;
+    }
 
-  const deleteDatasetButton=e.target.closest("[data-delete-dataset]");
-  if(deleteDatasetButton){deleteDataset(deleteDatasetButton.dataset.deleteDataset);return;}
+    /* ===== SIDEBAR FOUNDATION ===== */
 
-  const useDatasetButton=e.target.closest("[data-use-dataset]");
-  if(useDatasetButton){
-    const ds=getDataset(useDatasetButton.dataset.useDataset);
-    if(ds){lastImportedDatasetId=ds.id;renderPreview(ds);showPage("data");notify("Dataset selected.");}
-    return;
-  }
+    .sidebar {
+      width: 250px;
+      flex-shrink: 0;
+      padding: 30px 22px;
+      background: var(--green);
+      color: var(--white);
+    }
 
-  const deleteScheduleButton=e.target.closest("[data-delete-schedule]");
-  if(deleteScheduleButton){deleteSchedule(deleteScheduleButton.dataset.deleteSchedule);return;}
+    .brand {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 27px;
+      font-weight: normal;
+      letter-spacing: -0.7px;
+    }
 
-  const connectionButton=e.target.closest("[data-connect]");
-  if(connectionButton){setupConnection(connectionButton.dataset.connect);return;}
+    .brand span {
+      color: var(--champagne);
+    }
 
-  const planButton=e.target.closest("[data-plan]");
-  if(planButton){
-    state.settings.selectedPlan=planButton.dataset.plan;
-    save();renderPlan();notify(state.settings.selectedPlan+" selected in demo mode.");return;
-  }
+    .brand-caption {
+      margin-top: 8px;
+      color: #D8E0D7;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
 
-  if(e.target.classList.contains("modal-backdrop"))closeModals();
-});
+    .sidebar-divider {
+      height: 1px;
+      margin: 30px 0;
+      background: rgba(255, 255, 255, 0.2);
+    }
 
-$("csvFile").addEventListener("change",e=>importFile(e.target.files&&e.target.files[0]));
-$("reportSearch").addEventListener("input",renderReports);
-$("reportFilter").addEventListener("change",renderReports);
-$("topCreate").addEventListener("click",openReportCreator);
-$("menuBtn").addEventListener("click",()=>$("sidebar").classList.toggle("mobile-open"));
-$("notificationsSwitch").addEventListener("click",()=>{
-  state.settings.notifications=!state.settings.notifications;
-  setSwitch("notificationsSwitch",state.settings.notifications);save();
-  if(state.settings.notifications)notify("Notifications enabled.");
-});
-$("persistSwitch").addEventListener("click",()=>{
-  state.settings.persist=!state.settings.persist;
-  setSwitch("persistSwitch",state.settings.persist);
-  if(state.settings.persist)save();
-  else{
-    localStorage.removeItem(STORAGE_KEY);
-    $("toast").textContent="Local persistence disabled. New changes will not be saved.";
-    $("toast").classList.add("show");
-  }
-});
-document.addEventListener("keydown",e=>{if(e.key==="Escape")closeModals();});
+    /* PART 2: Add navigation items inside .sidebar here */
 
-load();
-refresh();
+    .sidebar-footer {
+      margin-top: 40px;
+      color: #D8E0D7;
+      font-size: 12px;
+      line-height: 1.7;
+    }
 
-/* =========================================================
-   ADD-ON CODE GOES HERE
- // FIX: Make the CSV picker open directly from the user's tap.
-document.addEventListener("click", function (e) {
-  const button = e.target.closest('[data-action="upload"]');
-  if (!button) return;
+    /* ===== MAIN WORKSPACE ===== */
 
-  e.preventDefault();
+    .workspace {
+      flex: 1;
+      min-width: 0;
+      padding: 38px;
+    }
 
-  const fileInput = document.getElementById("csvFile");
-  document.getElementById("page-data").classList.add("active");
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+    }
 
-  document.querySelectorAll(".page").forEach(function (page) {
-    page.classList.toggle("active", page.id === "page-data");
-  });
+    .eyebrow {
+      margin: 0 0 10px;
+      color: var(--muted);
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
 
-  document.querySelectorAll(".nav-btn[data-page]").forEach(function (nav) {
-    nav.classList.toggle("active", nav.dataset.page === "data");
-  });
+    h1,
+    h2,
+    h3 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-weight: normal;
+    }
 
-  fileInput.click();
-}, true); 
-Future features can be added below this comment and above
-   the closing </script> tag, without replacing the main app.
+    h1 {
+      margin: 0;
+      font-size: clamp(27px, 4vw, 38px);
+    }
 
-   Example:
-   document.querySelectorAll("[data-page]").forEach(button => {
-     // Add extra navigation behaviour here.
-   });
+    .status {
+      padding: 9px 13px;
+      border: 1px solid var(--border);
+      border-radius: 30px;
+      background: var(--white);
+      color: var(--green);
+      font-size: 12px;
+      white-space: nowrap;
+    }
 
-   SUPABASE WILL BE CONNECTED HERE LATER.
-   Never put a Supabase secret/service-role key in this file.
-   ========================================================= */
-})();
-</script>
+    /* ===== FIRST CONTENT AREA ===== */
+
+    .welcome {
+      max-width: 800px;
+      margin-top: 42px;
+      padding: 32px;
+      border: 1px solid var(--border);
+      background: var(--white);
+    }
+
+    .welcome h2 {
+      margin: 0 0 12px;
+      font-size: 29px;
+    }
+
+    .welcome p {
+      max-width: 560px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    .welcome-label {
+      display: inline-block;
+      margin-top: 12px;
+      padding: 8px 12px;
+      background: var(--ivory);
+      color: var(--green);
+      font-size: 11px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    /* PART 1 CSS ENDS HERE.
+       Add future CSS immediately ABOVE this comment. */
+
+    @media (max-width: 700px) {
+      .app-shell {
+        flex-direction: column;
+      }
+
+      .sidebar {
+        width: 100%;
+        padding: 22px;
+      }
+
+      .sidebar-divider {
+        margin: 18px 0;
+      }
+
+      .sidebar-footer {
+        margin-top: 18px;
+      }
+
+      .workspace {
+        padding: 22px 16px;
+      }
+
+      .welcome {
+        padding: 22px;
+      }
+
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="app-shell">
+
+    <aside class="sidebar">
+      <p class="brand">Count<span>On</span>Us</p>
+
+      <p class="brand-caption">Business Intelligence</p>
+
+      <div class="sidebar-divider"></div>
+
+      <!-- PART 2: NAVIGATION GOES HERE -->
+
+      <div class="sidebar-footer">
+        Your business, understood.<br>
+        Your next move, informed.
+      </div>
+    </aside>
+
+    <main class="workspace">
+
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">CountOnUs Workspace</p>
+          <h1>Business Overview</h1>
+        </div>
+
+        <span class="status">Foundation ready</span>
+      </header>
+
+      <!-- PART 3: DASHBOARD CONTENT GOES HERE -->
+
+      <section class="welcome">
+        <p class="eyebrow">Welcome to CountOnUs</p>
+
+        <h2>Clarity behind every decision.</h2>
+
+        <p>
+          Bring your business data together, understand what is happening,
+          and discover opportunities for growth — all in one place.
+        </p>
+
+        <span class="welcome-label">Your workspace starts here</span>
+      </section>
+
+      <!-- ADD FUTURE PAGE SECTIONS BELOW THIS LINE -->
+
+    </main>
+  </div>
+
+  <script>
+    "use strict";
+
+    // PART 1 JavaScript foundation.
+    // Add future JavaScript inside this script,
+    // ABOVE the closing </script> tag.
+
+    console.log("CountOnUs foundation loaded successfully.");
+  </script>
 </body>
 </html>
-
