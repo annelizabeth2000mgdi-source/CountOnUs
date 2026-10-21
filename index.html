@@ -170,37 +170,37 @@
       color: var(--green);
       font-size: 11px;
       letter-spacing: 1px;
-      text-transform: uppercase;
-    
-<nav class="navigation">
-  <p class="nav-heading">WORKSPACE</p>
+      text-transform: uppercase
 
-  <button class="nav-item active" data-page="overview">
-    Overview
-  </button>
+/* ===== PART 2: NAVIGATION DESIGN ===== */
 
-  <button class="nav-item" data-page="reports">
-    Reports
-  </button>
+.nav-heading {
+  margin: 24px 0 10px;
+  color: #C5D1C5;
+  font-size: 10px;
+  letter-spacing: 1.8px;
+}
 
-  <button class="nav-item" data-page="schedules">
-    Schedules
-  </button>
+.nav-item {
+  display: block;
+  width: 100%;
+  margin: 4px 0;
+  padding: 12px 14px;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  background: transparent;
+  color: #F7F4EC;
+  text-align: left;
+  font-size: 13px;
+  transition: background 0.2s ease;
+}
 
-  <button class="nav-item" data-page="integrations">
-    Integrations
-  </button>
-
-  <p class="nav-heading">ACCOUNT</p>
-
-  <button class="nav-item" data-page="settings">
-    Settings
-  </button>
-
-  <button class="nav-item" data-page="plans">
-    Plans & Pricing
-  </button>
-</nav>
+.nav-item:hover,
+.nav-item.active {
+  border-color: rgba(216, 201, 169, 0.3);
+  background: var(--green-light);
+  color: var(--champagne);
+}
 
     /* PART 1 CSS ENDS HERE.
        Add future CSS immediately ABOVE this comment. */
@@ -250,34 +250,37 @@
       <div class="sidebar-divider"></div>
 
     
-/* ===== PART 2: NAVIGATION DESIGN ===== */
 
-.nav-heading {
-  margin: 24px 0 10px;
-  color: #C5D1C5;
-  font-size: 10px;
-  letter-spacing: 1.8px;
-}
+<nav class="navigation">
+  <p class="nav-heading">WORKSPACE</p>
 
-.nav-item {
-  display: block;
-  width: 100%;
-  margin: 4px 0;
-  padding: 12px 14px;
-  border: 1px solid transparent;
-  border-radius: 3px;
-  background: transparent;
-  color: #F7F4EC;
-  text-align: left;
-  font-size: 13px;
-  transition: background 0.2s ease;
-}
+  <button class="nav-item active" data-page="overview">
+    Overview
+  </button>
 
-.nav-item:hover,
-.nav-item.active {
-  border-color: rgba(216, 201, 169, 0.3);
-  background: var(--green-light);
-  color: var(--champagne);
+  <button class="nav-item" data-page="reports">
+    Reports
+  </button>
+
+  <button class="nav-item" data-page="schedules">
+    Schedules
+  </button>
+
+  <button class="nav-item" data-page="integrations">
+    Integrations
+  </button>
+
+  <p class="nav-heading">ACCOUNT</p>
+
+  <button class="nav-item" data-page="settings">
+    Settings
+  </button>
+
+  <button class="nav-item" data-page="plans">
+    Plans & Pricing
+  </button>
+</nav>
+
 }
 
 
