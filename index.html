@@ -1,122 +1,277 @@
-
+ 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="CountOnUs turns business data into clear reports and actionable insights.">
-  <title>CountOnUs | Smarter Business Reports</title>
-  <style>
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #0b1020;
-      color: #f5f7ff;
-      line-height: 1.6;
-    }
-    nav {
-      display: flex; justify-content: space-between;
-      align-items: center; padding: 22px 7%;
-      border-bottom: 1px solid #252d43;
-    }
-    .logo { font-size: 25px; font-weight: bold; color: #a8b5ff; }
-    nav a { color: #e0e5f5; text-decoration: none; margin-left: 20px; }
-    .hero { text-align: center; padding: 90px 20px 65px; }
-    .tag {
-      display: inline-block; padding: 6px 13px;
-      border: 1px solid #46518a; border-radius: 30px;
-      color: #b9c3ff; font-size: 13px;
-    }
-    h1 { font-size: clamp(38px, 7vw, 66px); line-height: 1.12; margin: 24px auto; max-width: 850px; }
-    .accent { color: #a8b5ff; }
-    .hero p { color: #bac3d9; max-width: 650px; margin: 0 auto 30px; font-size: 18px; }
-    .button {
-      display: inline-block; background: #a8b5ff; color: #10152b;
-      padding: 13px 22px; border-radius: 9px; text-decoration: none;
-      font-weight: bold; border: 0; cursor: pointer;
-    }
-    section { padding: 55px 7%; }
-    .section-title { text-align: center; font-size: 32px; }
-    .muted { color: #bac3d9; text-align: center; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); gap: 18px; margin-top: 35px; }
-    .card { padding: 25px; background: #141b30; border: 1px solid #29334d; border-radius: 15px; }
-    .card h3 { margin-top: 0; }
-    .card p { color: #bac3d9; }
-    .price { font-size: 35px; font-weight: bold; margin: 10px 0; }
-    .price small { font-size: 14px; color: #bac3d9; font-weight: normal; }
-    .featured { border-color: #a8b5ff; }
-    .center { text-align: center; }
-    footer { padding: 28px; text-align: center; color: #bac3d9; border-top: 1px solid #252d43; }
-    @media(max-width:600px) {
-      nav { padding: 18px 5%; }
-      nav a { margin-left: 10px; font-size: 14px; }
-      .hero { padding-top: 65px; }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CountOnUs | Business Dashboard</title>
+<style>
+:root{--bg:#0b1020;--panel:#141c30;--border:#293651;--text:#f5f7ff;--muted:#aab8d4;--accent:#a8b5ff;--green:#69d8ac}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:15px Arial,sans-serif}
+button,input,select{font:inherit}
+button{cursor:pointer}
+.layout{display:flex;min-height:100vh}
+aside{width:225px;flex-shrink:0;background:#10182b;border-right:1px solid var(--border);padding:22px 14px}
+.logo{font-size:24px;font-weight:bold;color:var(--accent);padding:8px 7px 25px}
+.logo small{display:block;font-size:10px;color:var(--muted);margin-top:7px}
+.nav{width:100%;display:block;text-align:left;padding:13px 10px;margin:4px 0;background:none;border:0;border-radius:8px;color:var(--text)}
+.nav.active,.nav:hover{background:#202c49;color:var(--accent)}
+main{flex:1;min-width:0}
+header{padding:20px 25px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+header h2{margin:0;font-size:21px}
+header p,.muted{color:var(--muted);line-height:1.6}
+header p{font-size:12px;margin:5px 0 0}
+.content{max-width:1200px;padding:25px;margin:auto}
+h1{font-size:30px;margin:10px 0}
+h3{margin-top:0}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin:22px 0}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:19px;margin-bottom:15px;min-width:0}
+.metric-label{font-size:12px;color:var(--muted)}
+.metric{font-size:26px;font-weight:bold;margin:12px 0}
+.green{color:var(--green);font-size:12px}
+.btn{background:var(--accent);color:#10182b;border:0;border-radius:8px;padding:11px 15px;font-weight:bold}
+.secondary{background:#202c49;color:var(--text);border:1px solid var(--border)}
+input,select{display:block;width:100%;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);padding:12px;margin:8px 0 16px}
+label{display:block;color:var(--muted);font-size:13px;margin-top:15px}
+.row{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.pill{border:1px solid var(--border);padding:6px 10px;border-radius:20px;color:var(--muted);font-size:11px}
+.hidden{display:none!important}
+.notice{padding:14px;background:#19253b;border:1px solid var(--border);border-radius:9px;color:var(--muted);line-height:1.6;font-size:13px}
+table{width:100%;border-collapse:collapse;min-width:400px}
+th,td{text-align:left;padding:12px 8px;border-bottom:1px solid var(--border)}
+th{color:var(--muted);font-size:12px}
+.tablewrap{overflow-x:auto}
+footer{text-align:center;padding:25px;color:var(--muted);font-size:12px}
+@media(max-width:800px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}aside{width:180px;padding:14px 8px}.content{padding:16px}}
+@media(max-width:520px){.layout{display:block}aside{width:100%;padding:10px;border-right:0;border-bottom:1px solid var(--border)}.logo{padding:5px 5px 12px}.navs{display:flex;overflow-x:auto;gap:4px}.nav{width:auto;white-space:nowrap;font-size:12px;padding:10px}header{padding:15px}.content{padding:13px}.card{padding:13px}.metric{font-size:21px}h1{font-size:25px}}
+</style>
 </head>
 <body>
-  <nav>
-    <div class="logo">CountOnUs</div>
-    <div><a href="#features">Features</a><a href="#pricing">Pricing</a></div>
-  </nav>
+<div class="layout">
+<aside>
+<div class="logo">CountOnUs<small>BUSINESS INTELLIGENCE</small></div>
+<div class="navs">
+<button class="nav active" data-page="dashboard">▦ Dashboard</button>
+<button class="nav" data-page="data">▤ Data sources</button>
+<button class="nav" data-page="reports">▥ Reports</button>
+<button class="nav" data-page="schedule">◷ Schedule</button>
+<button class="nav" data-page="settings">⚙ Settings</button>
+</div>
+</aside>
+<main>
+<header>
+<div><h2 id="title">Dashboard</h2><p>Turn your numbers into clearer decisions.</p></div>
+<span class="pill">DEMO WORKSPACE</span>
+</header>
+<div class="content">
 
-  <main>
-    <div class="hero">
-      <span class="tag">BUSINESS ANALYTICS, MADE CLEAR</span>
-      <h1>Your data. Your insights.<br><span class="accent">Better decisions.</span></h1>
-      <p>Turn business data into easy-to-understand reports, AI-powered summaries and practical insights to help you make informed decisions.</p>
-      <a class="button" href="#pricing">Explore plans</a>
-    </div>
+<section id="dashboard" class="page">
+<p class="green">BUSINESS OVERVIEW</p>
+<h1>Your business, at a glance.</h1>
+<p class="muted">Review your sample metrics or upload a CSV to analyse your own data.</p>
+<div class="grid">
+<div class="card"><div class="metric-label">Total revenue</div><div class="metric" id="revenue">$24,850</div><div class="green">Sample data</div></div>
+<div class="card"><div class="metric-label">Orders / units</div><div class="metric" id="orders">342</div><div class="green">Sample data</div></div>
+<div class="card"><div class="metric-label">Average value</div><div class="metric" id="average">$72.66</div><div class="green">Revenue per order</div></div>
+<div class="card"><div class="metric-label">CSV files</div><div class="metric" id="sources">0</div><div class="green">This session</div></div>
+</div>
+<div class="card">
+<h3>Revenue trend</h3>
+<p class="muted">Illustrative sample figures, not live data.</p>
+<div id="chart" style="display:flex;gap:10px;align-items:end;height:150px">
+<div style="height:40%;background:#7e91ed;flex:1;border-radius:5px 5px 0 0"></div>
+<div style="height:55%;background:#7e91ed;flex:1;border-radius:5px 5px 0 0"></div>
+<div style="height:48%;background:#7e91ed;flex:1;border-radius:5px 5px 0 0"></div>
+<div style="height:70%;background:#7e91ed;flex:1;border-radius:5px 5px 0 0"></div>
+<div style="height:85%;background:#7e91ed;flex:1;border-radius:5px 5px 0 0"></div>
+<div style="height:100%;background:#a8b5ff;flex:1;border-radius:5px 5px 0 0"></div>
+</div>
+</div>
+<div class="card"><h3>Recent reports</h3><div id="recent" class="muted">No reports generated yet.</div><button class="btn secondary" data-go="reports">View reports</button></div>
+</section>
 
-    <section id="features">
-      <h2 class="section-title">Less time analysing. More time growing.</h2>
-      <p class="muted">A clearer view of the numbers that matter to your business.</p>
-      <div class="grid">
-        <div class="card"><h3>📊 Scheduled reports</h3><p>Designed for daily, weekly or monthly reporting workflows.</p></div>
-        <div class="card"><h3>✨ AI summaries</h3><p>Make complex business data easier to understand with concise summaries.</p></div>
-        <div class="card"><h3>💡 Actionable insights</h3><p>Discover trends and opportunities to investigate in your business data.</p></div>
-      </div>
-    </section>
+<section id="data" class="page hidden">
+<h1>Data sources</h1>
+<p class="muted">Upload a CSV export from a spreadsheet or business platform. Analysis happens in your browser.</p>
+<div class="card">
+<h3>Import business data</h3>
+<label for="csv">Choose CSV file</label>
+<input type="file" id="csv" accept=".csv,text/csv">
+<button class="btn" id="upload">Upload and analyse</button>
+<p id="uploadMsg" class="muted" aria-live="polite"></p>
+<p class="muted">Recommended columns: product, revenue, orders. The first row must contain column headings.</p>
+</div>
+<div class="card"><h3>Uploaded files</h3><div id="sourceList" class="muted">No files uploaded.</div></div>
+<div class="notice">Live Shopify and Google Analytics connections require authenticated integrations and a backend.</div>
+</section>
 
-    <section id="pricing">
-      <h2 class="section-title">Simple, transparent plans</h2>
-      <p class="muted">Choose the plan that fits your reporting needs.</p>
-      <div class="grid">
-        <div class="card">
-          <h3>Pro</h3>
-          <p>For individuals and small businesses.</p>
-          
-           <div class="price" style="color:#a8b5ff;font-size:30px">$500<small> / year</small></div>
-<p style="color:#a8b5ff;font-weight:bold">Save $88 per year</p>
-      <p style="margin-top:16px;font-size:16px">
-  Or <strong>$49 / month</strong>
-      </p>
-          <p>• One account<br>• Business reporting workflow<br>• AI summary features when available<br>• CountOnUs branding</p>
-          <a class="button" href="mailto:countonus.business@gmail.com?subject=CountOnUs%20Pro%20Enquiry">Enquire about Pro</a>
-        </div>
-        <div class="card featured">
-          <h3>Master</h3>
-          <p>For agencies managing multiple clients.</p>
-        
-      
-        <div class="price" style="color:#a8b5ff;font-size:30px">$1,000<small> / year</small></div>
-<p style="color:#a8b5ff;font-weight:bold">Save $188 per year</p>
-        <p style="margin-top:16px;font-size:16px">
-  Or <strong>$99 / month</strong>
-        </p>  <p>• Up to 50 client profiles planned<br>• Agency branding planned<br>• Reporting and AI insights planned<br>• Designed for agency workflows</p>
-          <a class="button" href="mailto:countonus.business@gmail.com?subject=CountOnUs%20Master%20Enquiry">Enquire about Master</a>
-        </div>
-      </div>
-      <p class="muted">Annual plans are listed for reference. Payments and subscriptions are not yet available on this preview website.</p>
+<section id="reports" class="page hidden">
+<h1>Reports</h1>
+<p class="muted">Create a business summary and download it as a text file.</p>
+<div class="card">
+<label for="reportName">Report name</label>
+<input id="reportName" value="Business performance report">
+<label for="reportType">Report type</label>
+<select id="reportType"><option value="overview">Performance overview</option><option value="products">Product analysis</option></select>
+<button class="btn" id="generate">Generate report</button>
+</div>
+<div class="card"><h3>Generated reports</h3><div id="reportList" class="muted">No reports generated yet.</div></div>
+</section>
 
-    <section class="center">
-      <h2>Ready to make more sense of your data?</h2>
-      <p class="muted">Contact us to learn more about CountOnUs.</p>
-      <a class="button" href="mailto:countonus.business@gmail.com?subject=CountOnUs%20Enquiry">Contact CountOnUs</a>
-    </section>
-  </main>
+<section id="schedule" class="page hidden">
+<h1>Report schedule</h1>
+<p class="muted">Set your preferred reporting schedule.</p>
+<div class="card">
+<label for="frequency">Frequency</label>
+<select id="frequency"><option>Daily</option><option selected>Weekly</option><option>Monthly</option></select>
+<label for="day">Day</label>
+<select id="day"><option>Monday</option><option>Tuesday</option><option>Wednesday</option><option>Thursday</option><option>Friday</option><option>Saturday</option><option>Sunday</option></select>
+<label for="time">Preferred time</label>
+<input type="time" id="time" value="09:00">
+<label for="email">Recipient email</label>
+<input type="email" id="email" placeholder="you@example.com">
+<button class="btn" id="saveSchedule">Save preferences</button>
+<p id="scheduleMsg" class="muted" aria-live="polite"></p>
+</div>
+<div class="notice">These preferences are only saved in this page session. Automated email delivery requires a server and email service.</div>
+</section>
 
-  <footer>© 2026 CountOnUs. All rights reserved. <br>Website preview — reporting, payments and integrations are not yet connected.</footer>
+<section id="settings" class="page hidden">
+<h1>Settings</h1>
+<div class="card">
+<label for="workspace">Workspace name</label>
+<input id="workspace" value="My Business">
+<label for="currency">Display currency</label>
+<select id="currency"><option value="USD">USD ($)</option><option value="INR">INR (₹)</option><option value="EUR">EUR (€)</option><option value="GBP">GBP (£)</option></select>
+<button class="btn" id="saveSettings">Save settings</button>
+<p id="settingsMsg" class="muted"></p>
+</div>
+<div class="card">
+<h3>Product status</h3>
+<p class="muted">Working demo: navigation, CSV analysis, report generation and downloads.</p>
+<p class="muted">Not yet connected: user accounts, persistent database, live integrations, payments and automatic email delivery.</p>
+<button class="btn secondary" id="reset">Reset demo</button>
+</div>
+</section>
+</div>
+<footer>© 2026 CountOnUs · Smarter business reporting</footer>
+</main>
+</div>
+<script>
+(function(){
+const $=id=>document.getElementById(id);
+const pageNames={dashboard:"Dashboard",data:"Data sources",reports:"Reports",schedule:"Schedule",settings:"Settings"};
+let reportData=[],sourceData=[],totalRevenue=null,totalOrders=null,products=[],currency="USD";
+
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+function money(n){try{return new Intl.NumberFormat("en-US",{style:"currency",currency:currency,maximumFractionDigits:2}).format(n);}catch(e){return String(n);}}
+function go(page){
+ if(!pageNames[page])return;
+ document.querySelectorAll(".page").forEach(p=>p.classList.toggle("hidden",p.id!==page));
+ document.querySelectorAll("[data-page]").forEach(b=>b.classList.toggle("active",b.dataset.page===page));
+ $("title").textContent=pageNames[page];
+ window.scrollTo(0,0);
+}
+document.querySelectorAll("[data-page]").forEach(b=>b.addEventListener("click",()=>go(b.dataset.page)));
+document.querySelectorAll("[data-go]").forEach(b=>b.addEventListener("click",()=>go(b.dataset.go)));
+
+function renderReports(){
+ $("reportList").innerHTML=reportData.length?reportData.map((r,i)=>
+ '<div style="padding:14px 0;border-bottom:1px solid #293651"><strong>'+esc(r.name)+'</strong><p class="muted">'+esc(r.date)+'</p><p>'+esc(r.summary)+'</p><button class="btn secondary" data-download="'+i+'">Download report</button></div>'
+ ).join(""):"No reports generated yet.";
+ $("recent").innerHTML=reportData.length?reportData.slice(-3).reverse().map(r=>"<p>"+esc(r.name)+" — "+esc(r.date)+"</p>").join(""):"No reports generated yet.";
+ document.querySelectorAll("[data-download]").forEach(b=>b.addEventListener("click",()=>{
+  const r=reportData[Number(b.dataset.download)];if(!r)return;
+  const blob=new Blob([r.name+"\n"+r.date+"\n\n"+r.summary],{type:"text/plain;charset=utf-8"});
+  const url=URL.createObjectURL(blob),a=document.createElement("a");
+  a.href=url;a.download="countonus-report.txt";a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+ }));
+}
+
+$("generate").addEventListener("click",()=>{
+ let summary;
+ if(totalRevenue!==null){
+  summary="CSV analysis of "+sourceData[sourceData.length-1].rows+" rows. Revenue total: "+money(totalRevenue)+". ";
+  if(totalOrders!==null)summary+="Orders or units total: "+totalOrders+". ";
+  if(products.length){let best=products.slice().sort((a,b)=>b.value-a.value)[0];summary+="Highest-revenue product/category: "+best.name+" ("+money(best.value)+"). ";}
+  summary+="Verify the source data before making business decisions.";
+ }else{
+  summary=$("reportType").value==="products"?"No product CSV has been uploaded yet. Upload a CSV with product and revenue columns for product analysis.":"Illustrative sample: revenue $24,850, orders 342, average order $72.66. These are demo values, not live business data.";
+ }
+ reportData.push({name:$("reportName").value.trim()||"Business report",date:new Date().toLocaleString(),summary:summary});
+ renderReports();go("reports");
+});
+
+function parseCSV(text){
+ const lines=[];let row=[],field="",quoted=false;
+ for(let i=0;i<text.length;i++){
+  let c=text[i];
+  if(c==='"'){if(quoted&&text[i+1]==='"'){field+='"';i++;}else quoted=!quoted;}
+  else if(c===","&&!quoted){row.push(field.trim());field="";}
+  else if((c==="\n"||c==="\r")&&!quoted){if(c==="\r"&&text[i+1]==="\n")i++;row.push(field.trim());if(row.some(x=>x!==""))lines.push(row);row=[];field="";}
+  else field+=c;
+ }
+ row.push(field.trim());if(row.some(x=>x!==""))lines.push(row);
+ if(lines.length<2)throw Error("Please use a CSV with headings and at least one data row.");
+ const heads=lines.shift().map(h=>h.toLowerCase().replace(/^\uFEFF/,""));
+ return lines.map(line=>{let obj={};heads.forEach((h,i)=>obj[h]=line[i]||"");return obj;});
+}
+function keyFor(keys,terms){return keys.find(k=>terms.some(t=>k===t||k.includes(t)));}
+$("upload").addEventListener("click",()=>{
+ const file=$("csv").files[0];
+ if(!file){$("uploadMsg").textContent="Choose a CSV file first.";return;}
+ if(file.size>5000000){$("uploadMsg").textContent="Choose a file smaller than 5 MB.";return;}
+ $("upload").disabled=true;$("uploadMsg").textContent="Reading file...";
+ const reader=new FileReader();
+ reader.onload=()=>{
+  try{
+   const rows=parseCSV(String(reader.result)),keys=Object.keys(rows[0]);
+   const rk=keyFor(keys,["revenue","sales","amount","total","price"]);
+   const ok=keyFor(keys,["orders","quantity","units","count"]);
+   const pk=keyFor(keys,["product","item","category","name"]);
+   let rev=0,rc=0,ord=0,oc=0,totals={};
+   rows.forEach(r=>{
+    if(rk){let n=Number(String(r[rk]).replace(/[$₹€£,\s]/g,""));if(r[rk]!==""&&Number.isFinite(n)){rev+=n;rc++;if(pk&&r[pk])totals[r[pk]]=(totals[r[pk]]||0)+n;}}
+    if(ok){let n=Number(String(r[ok]).replace(/,/g,""));if(r[ok]!==""&&Number.isFinite(n)){ord+=n;oc++;}}
+   });
+   totalRevenue=rc?rev:null;totalOrders=oc?ord:null;
+   products=Object.entries(totals).map(([name,value])=>({name,value}));
+   sourceData.push({name:file.name,rows:rows.length});
+   $("sources").textContent=sourceData.length;
+   if(totalRevenue!==null)$("revenue").textContent=money(totalRevenue);
+   if(totalOrders!==null)$("orders").textContent=totalOrders.toLocaleString();
+   if(totalRevenue!==null&&totalOrders!==null&&totalOrders!==0)$("average").textContent=money(totalRevenue/totalOrders);
+   $("sourceList").innerHTML=sourceData.map(s=>"<p>"+esc(s.name)+" — "+s.rows+" rows</p>").join("");
+   $("chart").innerHTML='<div class="notice">CSV totals analysed. The sample chart is not a time-series chart of your uploaded data.</div>';
+   $("uploadMsg").textContent="Success! Analysed "+rows.length+" rows. Open Reports to generate a summary.";
+  }catch(e){$("uploadMsg").textContent="Could not analyse CSV: "+e.message;}
+  $("upload").disabled=false;
+ };
+ reader.onerror=()=>{$("uploadMsg").textContent="Unable to read file."; $("upload").disabled=false;};
+ reader.readAsText(file);
+});
+
+$("saveSchedule").addEventListener("click",()=>{
+ $("scheduleMsg").textContent="Preferences set for this session: "+$("frequency").value+", "+$("day").value+" at "+$("time").value+". Automated emails are not enabled.";
+});
+$("saveSettings").addEventListener("click",()=>{
+ currency=$("currency").value;
+ $("settingsMsg").textContent="Settings updated for this session: "+($("workspace").value.trim()||"My Business")+", "+currency+".";
+ if(totalRevenue!==null)$("revenue").textContent=money(totalRevenue);
+ if(totalRevenue!==null&&totalOrders)$("average").textContent=money(totalRevenue/totalOrders);
+});
+$("reset").addEventListener("click",()=>{
+ if(!confirm("Reset the demo reports and uploaded data for this page session?"))return;
+ reportData=[];sourceData=[];totalRevenue=null;totalOrders=null;products=[];
+ $("sources").textContent="0";$("revenue").textContent="$24,850";$("orders").textContent="342";$("average").textContent="$72.66";
+ $("sourceList").textContent="No files uploaded.";$("uploadMsg").textContent="";$("csv").value="";
+ $("chart").innerHTML='<div style="height:40%;background:#7e91ed;flex:1"></div><div style="height:60%;background:#7e91ed;flex:1"></div><div style="height:100%;background:#a8b5ff;flex:1"></div>';
+ $("chart").style.display="flex";$("chart").style.gap="10px";$("chart").style.alignItems="end";
+ renderReports();go("dashboard");
+});
+renderReports();
+})();
+</script>
 </body>
 </html>
