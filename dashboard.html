@@ -1,0 +1,281 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard | CountOnUs</title>
+<style>
+:root {
+  --bg:#0b1020;
+  --panel:#121a2e;
+  --line:#252d43;
+  --text:#f5f7ff;
+  --muted:#9ba8c7;
+  --accent:#a8b5ff;
+  --purple:#7568f6;
+  --green:#5bd6a0;
+}
+* { box-sizing:border-box; }
+body {
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Arial,sans-serif;
+  line-height:1.6;
+}
+a { color:inherit;text-decoration:none; }
+button,input,select { font:inherit; }
+button { cursor:pointer; }
+.layout { min-height:100vh;display:flex; }
+.sidebar {
+  width:235px;flex-shrink:0;padding:24px 16px;
+  background:var(--panel);border-right:1px solid var(--line);
+}
+.brand { font-size:23px;font-weight:bold;margin:0 8px 32px; }
+.brand span { color:var(--accent); }
+.nav-label {
+  font-size:10px;letter-spacing:1.5px;color:var(--muted);
+  padding:12px 10px 7px;
+}
+.nav-link {
+  display:block;width:100%;padding:11px 12px;margin:3px 0;
+  background:transparent;color:var(--muted);border:0;
+  border-radius:8px;text-align:left;
+}
+.nav-link:hover,.nav-link.active {
+  color:white;background:#24284a;
+}
+.sidebar-note {
+  margin-top:35px;padding:13px;border:1px solid var(--line);
+  border-radius:10px;color:var(--muted);font-size:12px;
+}
+main { flex:1;min-width:0; }
+.topbar {
+  display:flex;justify-content:space-between;align-items:center;
+  gap:12px;padding:17px 28px;border-bottom:1px solid var(--line);
+  background:var(--panel);
+}
+.topbar a { color:var(--accent);font-size:13px; }
+.topbar strong { font-size:16px; }
+.content { max-width:1250px;margin:auto;padding:30px; }
+.page { display:none; }
+.page.active { display:block; }
+h1 { font-size:28px;line-height:1.25;margin:5px 0 8px; }
+h2 { font-size:17px;margin:0; }
+p { margin-top:5px; }
+.muted { color:var(--muted); }
+.eyebrow { color:var(--accent);font-size:11px;letter-spacing:1.4px; }
+.heading-row {
+  display:flex;justify-content:space-between;align-items:center;
+  gap:16px;flex-wrap:wrap;margin-bottom:25px;
+}
+.btn {
+  display:inline-block;padding:10px 15px;border-radius:8px;
+  border:1px solid var(--line);background:var(--panel);color:var(--text);
+}
+.btn-primary { background:var(--purple);border-color:var(--purple); }
+.btn:hover { filter:brightness(1.12); }
+.grid { display:grid;gap:16px; }
+.metrics { grid-template-columns:repeat(4,minmax(0,1fr)); }
+.card {
+  min-width:0;padding:20px;background:var(--panel);
+  border:1px solid var(--line);border-radius:12px;
+}
+.metric-label { color:var(--muted);font-size:12px; }
+.metric-value { font-size:28px;font-weight:bold;margin-top:12px; }
+.metric-note { color:var(--muted);font-size:11px; }
+.section-grid {
+  grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);
+  margin-top:18px;
+}
+.card-head {
+  display:flex;align-items:center;justify-content:space-between;
+  gap:10px;margin-bottom:16px;
+}
+.badge {
+  display:inline-block;border-radius:20px;padding:4px 9px;
+  background:#1e403b;color:var(--green);font-size:11px;
+}
+.notice {
+  padding:13px 15px;border:1px solid #39365e;
+  border-radius:9px;background:#171832;color:#c6c9ff;
+  font-size:12px;margin-bottom:18px;
+}
+.activity {
+  padding:12px 0;border-bottom:1px solid var(--line);
+  font-size:12px;
+}
+.activity:last-child { border:0; }
+.activity p { color:var(--muted);margin-bottom:0; }
+.bar-chart {
+  height:160px;display:flex;align-items:flex-end;
+  justify-content:space-around;gap:12px;padding-top:15px;
+}
+.bar-column {
+  flex:1;display:flex;height:100%;flex-direction:column;
+  align-items:center;justify-content:flex-end;gap:8px;
+}
+.bar {
+  width:min(35px,75%);background:var(--purple);
+  border-radius:5px 5px 0 0;min-height:3px;
+}
+.bar-label { color:var(--muted);font-size:10px; }
+.table-wrap { overflow-x:auto; }
+table { width:100%;border-collapse:collapse;white-space:nowrap; }
+th,td {
+  padding:13px 10px;text-align:left;border-bottom:1px solid var(--line);
+  font-size:12px;
+}
+th { color:var(--muted);font-size:10px;text-transform:uppercase; }
+input,select {
+  background:var(--bg);border:1px solid var(--line);
+  color:var(--text);border-radius:8px;padding:11px;width:100%;
+}
+.field { margin:14px 0; }
+.field label { display:block;font-size:12px;margin-bottom:6px; }
+.upload {
+  border:2px dashed #39365e;padding:30px 15px;text-align:center;
+  border-radius:10px;margin-top:15px;
+}
+.empty { color:var(--muted);padding:20px 0;text-align:center; }
+.footer { text-align:center;margin-top:30px;font-size:11px;color:var(--muted); }
+@media(max-width:900px) {
+  .metrics { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .section-grid { grid-template-columns:1fr; }
+}
+@media(max-width:650px) {
+  .layout { display:block; }
+  .sidebar { width:100%;padding:15px; }
+  .brand { margin-bottom:12px; }
+  .nav-label { padding-top:8px; }
+  .nav-link { display:inline-block;width:auto;margin:2px;padding:8px; }
+  .sidebar-note { margin-top:12px; }
+  .topbar { padding:14px 16px; }
+  .content { padding:20px 14px; }
+  h1 { font-size:24px; }
+  .metric-value { font-size:23px; }
+  .card { padding:15px; }
+}
+</style>
+</head>
+<body>
+<div class="layout">
+<aside class="sidebar">
+  <div class="brand">Count<span>On</span>Us</div>
+  <div class="nav-label">WORKSPACE</div>
+  <button class="nav-link active" data-page="dashboard">▦ Dashboard</button>
+  <button class="nav-link" data-page="reports">▤ Reports</button>
+  <button class="nav-link" data-page="sources">⇧ Data sources</button>
+  <button class="nav-link" data-page="schedules">◷ Schedules</button>
+  <div class="nav-label">PREFERENCES</div>
+  <button class="nav-link" data-page="settings">⚙ Settings</button>
+  <div class="sidebar-note">
+    <strong>CountOnUs workspace</strong>
+    <p>Turn business data into clearer decisions.</p>
+    <a href="index.html">← Back to homepage</a>
+  </div>
+</aside>
+
+<main>
+<header class="topbar">
+  <strong id="pageTitle">Dashboard</strong>
+  <a href="index.html">Visit homepage ↗</a>
+</header>
+<div class="content">
+
+<section class="page active" id="page-dashboard">
+  <div class="heading-row">
+    <div>
+      <div class="eyebrow">YOUR WORKSPACE</div>
+      <h1>Business dashboard</h1>
+      <p class="muted">Your business performance at a glance.</p>
+    </div>
+    <button class="btn btn-primary" data-page="sources">+ Import data</button>
+  </div>
+  <div class="notice">Demo mode: figures start at zero. Import a CSV to calculate basic statistics from your own data.</div>
+  <div class="grid metrics">
+    <div class="card"><div class="metric-label">Revenue</div><div class="metric-value" id="revenue">₹0</div><div class="metric-note">From imported data</div></div>
+    <div class="card"><div class="metric-label">Records</div><div class="metric-value" id="records">0</div><div class="metric-note">Rows imported</div></div>
+    <div class="card"><div class="metric-label">Customers</div><div class="metric-value" id="customers">0</div><div class="metric-note">Unique IDs or names</div></div>
+    <div class="card"><div class="metric-label">Reports created</div><div class="metric-value" id="reportCount">0</div><div class="metric-note">In this browser session</div></div>
+  </div>
+  <div class="grid section-grid">
+    <div class="card">
+      <div class="card-head"><h2>Revenue overview</h2><span class="badge">Local data</span></div>
+      <div id="chartCaption" class="muted" style="font-size:12px">Import a CSV to see your revenue chart.</div>
+      <div class="bar-chart" id="chart"><div class="empty">No data yet</div></div>
+    </div>
+    <div class="card">
+      <div class="card-head"><h2>Recent activity</h2></div>
+      <div id="activity">
+        <div class="activity"><strong>Workspace ready</strong><p>Your dashboard is ready to use.</p></div>
+        <div class="activity"><strong>Next step: import data</strong><p>Upload a CSV file to start exploring.</p></div>
+      </div>
+    </div>
+  </div>
+  <div class="card" style="margin-top:18px">
+    <div class="card-head"><h2>Recent reports</h2><button class="btn" data-page="reports">View all</button></div>
+    <div class="table-wrap"><table><thead><tr><th>Report</th><th>Date</th><th>Status</th></tr></thead><tbody id="recentReports"><tr><td colspan="3" class="empty">No reports yet</td></tr></tbody></table></div>
+  </div>
+</section>
+
+<section class="page" id="page-reports">
+  <div class="heading-row"><div><div class="eyebrow">ANALYTICS</div><h1>Reports</h1><p class="muted">Create and export a report from your imported data.</p></div><button class="btn btn-primary" id="createReport">+ Create report</button></div>
+  <div class="card">
+    <div class="card-head"><h2>All reports</h2></div>
+    <div class="table-wrap"><table><thead><tr><th>Report</th><th>Created</th><th>Status</th><th>Action</th></tr></thead><tbody id="allReports"><tr><td colspan="4" class="empty">No reports yet</td></tr></tbody></table></div>
+  </div>
+</section>
+
+<section class="page" id="page-sources">
+  <div class="heading-row"><div><div class="eyebrow">DATA MANAGEMENT</div><h1>Data sources</h1><p class="muted">Import a CSV file for local analysis.</p></div></div>
+  <div class="card">
+    <h2>Upload CSV</h2>
+    <p class="muted">Choose a CSV containing business data, such as orders, products or revenue.</p>
+    <div class="upload">
+      <p>Choose a CSV file from your device</p>
+      <input id="csvFile" type="file" accept=".csv,text/csv">
+      <p class="muted">Your file will be processed in this browser.</p>
+    </div>
+    <p id="uploadStatus" class="muted" role="status"></p>
+    <div id="dataPreview" class="table-wrap"></div>
+  </div>
+</section>
+
+<section class="page" id="page-schedules">
+  <div class="heading-row"><div><div class="eyebrow">AUTOMATION</div><h1>Schedules</h1><p class="muted">Prepare report schedule settings.</p></div></div>
+  <div class="notice">Schedule settings in this prototype are saved only for the current browser session. Automatic report delivery requires a backend service.</div>
+  <div class="card">
+    <h2>Create a schedule</h2>
+    <div class="field"><label for="scheduleName">Schedule name</label><input id="scheduleName" placeholder="Weekly sales report"></div>
+    <div class="field"><label for="frequency">Frequency</label><select id="frequency"><option>Daily</option><option selected>Weekly</option><option>Monthly</option></select></div>
+    <div class="field"><label for="scheduleTime">Preferred time</label><input id="scheduleTime" type="time" value="09:00"></div>
+    <button class="btn btn-primary" id="addSchedule">Save schedule</button>
+  </div>
+  <div class="card" style="margin-top:18px"><h2>Your schedules</h2><div id="scheduleList"><p class="empty">No schedules configured.</p></div></div>
+</section>
+
+<section class="page" id="page-settings">
+  <div class="heading-row"><div><div class="eyebrow">PREFERENCES</div><h1>Settings</h1><p class="muted">Manage your local workspace preferences.</p></div></div>
+  <div class="card">
+    <h2>Workspace profile</h2>
+    <div class="field"><label for="businessName">Business or workspace name</label><input id="businessName" placeholder="My business"></div>
+    <div class="field"><label for="currency">Display currency</label><select id="currency"><option value="INR">INR — Indian Rupee (₹)</option><option value="USD">USD — US Dollar ($)</option><option value="EUR">EUR — Euro (€)</option><option value="GBP">GBP — British Pound (£)</option></select></div>
+    <button class="btn btn-primary" id="saveSettings">Save preferences</button>
+    <p id="settingsStatus" class="muted" role="status"></p>
+  </div>
+  <div class="card" style="margin-top:18px">
+    <h2>Subscription plans</h2>
+    <p>Pro — $49 monthly or $500 annually.</p>
+    <p>Master — $99 monthly or $1,000 annually.</p>
+    <p class="muted">These are plan descriptions only. Payments and subscriptions are not connected.</p>
+  </div>
+</section>
+
+<div class="footer">CountOnUs · Business analytics workspace</div>
+</div>
+</main>
+</div>
+</body>
+</html>
