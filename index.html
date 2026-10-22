@@ -2,662 +2,799 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#224A33">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#224A33">
+<title>CountOnUs — Business Intelligence</title>
 
-  <title>CountOnUs — Business Intelligence</title>
-
-  <style>
-    /* ===== PART 1: BRAND DESIGN ===== */
-
-    :root {
-      --green: #224A33;
-      --green-light: #315C43;
-      --ivory: #F7F4EC;
-      --champagne: #D8C9A9;
-      --white: #FFFEFA;
-      --text: #26352B;
-      --muted: #788077;
-      --border: #E6E1D6;
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      background: var(--ivory);
-      color: var(--text);
-      font-family: Arial, Helvetica, sans-serif;
-    }
-
-    button,
-    input,
-    select {
-      font: inherit;
-    }
-
-    button {
-      cursor: pointer;
-    }
-
-    .app-shell {
-      display: flex;
-      min-height: 100vh;
-    }
-
-    /* ===== SIDEBAR FOUNDATION ===== */
-
-    .sidebar {
-      width: 250px;
-      flex-shrink: 0;
-      padding: 30px 22px;
-      background: var(--green);
-      color: var(--white);
-    }
-
-    .brand {
-      margin: 0;
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: 27px;
-      font-weight: normal;
-      letter-spacing: -0.7px;
-    }
-
-    .brand span {
-      color: var(--champagne);
-    }
-
-    .brand-caption {
-      margin-top: 8px;
-      color: #D8E0D7;
-      font-size: 11px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-    }
-
-    .sidebar-divider {
-      height: 1px;
-      margin: 30px 0;
-      background: rgba(255, 255, 255, 0.2);
-    }
-
-    /* PART 2: Add navigation items inside .sidebar here */
-
-    .sidebar-footer {
-      margin-top: 40px;
-      color: #D8E0D7;
-      font-size: 12px;
-      line-height: 1.7;
-    }
-
-    /* ===== MAIN WORKSPACE ===== */
-
-    .workspace {
-      flex: 1;
-      min-width: 0;
-      padding: 38px;
-    }
-
-    .topbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      padding-bottom: 24px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .eyebrow {
-      margin: 0 0 10px;
-      color: var(--muted);
-      font-size: 11px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-    }
-
-    h1,
-    h2,
-    h3 {
-      font-family: Georgia, "Times New Roman", serif;
-      font-weight: normal;
-    }
-
-    h1 {
-      margin: 0;
-      font-size: clamp(27px, 4vw, 38px);
-    }
-
-    .status {
-      padding: 9px 13px;
-      border: 1px solid var(--border);
-      border-radius: 30px;
-      background: var(--white);
-      color: var(--green);
-      font-size: 12px;
-      white-space: nowrap;
-    }
-
-    /* ===== FIRST CONTENT AREA ===== */
-
-    .welcome {
-      max-width: 800px;
-      margin-top: 42px;
-      padding: 32px;
-      border: 1px solid var(--border);
-      background: var(--white);
-    }
-
-    .welcome h2 {
-      margin: 0 0 12px;
-      font-size: 29px;
-    }
-
-    .welcome p {
-      max-width: 560px;
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.8;
-    }
-
-    .welcome-label {
-      display: inline-block;
-      margin-top: 12px;
-      padding: 8px 12px;
-      background: var(--ivory);
-      color: var(--green);
-      font-size: 11px;
-      letter-spacing: 1px;
-      text-transform: uppercase
-
-/* ===== PART 2: NAVIGATION DESIGN ===== */
-
+<style>
+:root {
+  --green:#224A33;
+  --green-light:#315C43;
+  --ivory:#F7F4EC;
+  --gold:#D8C9A9;
+  --white:#FFFEFA;
+  --text:#26352B;
+  --muted:#788077;
+  --border:#E6E1D6;
+}
+* { box-sizing:border-box; }
+body {
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:var(--ivory);
+  color:var(--text);
+}
+button,input,select { font:inherit; }
+button { cursor:pointer; }
+button:focus-visible,input:focus-visible,select:focus-visible {
+  outline:2px solid var(--gold);
+  outline-offset:3px;
+}
+.app-shell { min-height:100vh; }
+.sidebar {
+  position:fixed;
+  inset:0 auto 0 0;
+  width:250px;
+  padding:28px 20px;
+  background:var(--green);
+  color:var(--white);
+  overflow-y:auto;
+}
+.brand {
+  margin:0;
+  font:normal 30px Georgia,serif;
+  letter-spacing:-1px;
+}
+.brand span { color:var(--gold); }
+.brand-caption {
+  margin:8px 0 28px;
+  color:#D8E0D7;
+  font-size:10px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+}
+.sidebar-divider {
+  height:1px;
+  background:#ffffff30;
+  margin:22px 0;
+}
 .nav-heading {
-  margin: 24px 0 10px;
-  color: #C5D1C5;
-  font-size: 10px;
-  letter-spacing: 1.8px;
+  margin:24px 0 9px;
+  color:#C5D1C5;
+  font-size:10px;
+  letter-spacing:1.8px;
 }
-
 .nav-item {
-  display: block;
-  width: 100%;
-  margin: 4px 0;
-  padding: 12px 14px;
-  border: 1px solid transparent;
-  border-radius: 3px;
-  background: transparent;
-  color: #F7F4EC;
-  text-align: left;
-  font-size: 13px;
-  transition: background 0.2s ease;
+  display:block;
+  width:100%;
+  margin:4px 0;
+  padding:12px;
+  border:1px solid transparent;
+  border-radius:5px;
+  background:transparent;
+  color:var(--white);
+  text-align:left;
+  font-size:13px;
 }
-
-.nav-item:hover,
+.nav-item:hover { background:#ffffff12; }
 .nav-item.active {
-  border-color: rgba(216, 201, 169, 0.3);
-  background: var(--green-light);
-  color: var(--champagne);
+  background:var(--ivory);
+  color:var(--green);
+  font-weight:bold;
 }
+.sidebar-footer {
+  margin-top:30px;
+  color:#D8E0D7;
+  font-size:12px;
+  line-height:1.8;
+}
+.workspace {
+  margin-left:250px;
+  min-height:100vh;
+  padding:34px;
+}
+.topbar {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:16px;
+  padding-bottom:24px;
+  border-bottom:1px solid var(--border);
+}
+.eyebrow {
+  margin:0 0 10px;
+  color:var(--muted);
+  font-size:10px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+}
+h1,h2,h3 {
+  font-family:Georgia,"Times New Roman",serif;
+  font-weight:normal;
+  color:var(--green);
+}
+h1 { margin:0; font-size:clamp(27px,4vw,38px); }
+h2 { font-size:26px; }
+h3 { font-size:20px; }
+.status {
+  padding:10px 13px;
+  border:1px solid var(--border);
+  border-radius:25px;
+  background:var(--white);
+  color:var(--green);
+  font-size:11px;
+  white-space:nowrap;
+}
+.page { display:none; }
+.page.active { display:block; }
+.welcome,.panel {
+  margin-top:26px;
+  padding:25px;
+  border:1px solid var(--border);
+  background:var(--white);
+}
+.welcome { padding:32px; }
+.welcome h2 { margin:12px 0; font-size:32px; }
+p.description {
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.8;
+}
+.dashboard-grid {
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:16px;
+  margin-top:24px;
+}
+.metric-card {
+  padding:20px;
+  border:1px solid var(--border);
+  background:var(--white);
+  min-width:0;
+}
+.metric-label {
+  color:var(--muted);
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:1px;
+}
+.metric {
+  margin:15px 0 5px;
+  color:var(--green);
+  font:normal 30px Georgia,serif;
+}
+.small-note { color:var(--muted); font-size:12px; line-height:1.6; }
+.primary-button,.secondary-button {
+  display:inline-block;
+  padding:12px 16px;
+  border-radius:5px;
+  font-size:13px;
+}
+.primary-button {
+  border:1px solid var(--green);
+  background:var(--green);
+  color:var(--white);
+}
+.primary-button:hover { background:var(--green-light); }
+.secondary-button {
+  border:1px solid var(--gold);
+  background:transparent;
+  color:var(--green);
+}
+.form-label {
+  display:block;
+  margin:15px 0 7px;
+  color:var(--text);
+  font-size:12px;
+  font-weight:bold;
+}
+.field {
+  display:block;
+  width:100%;
+  min-height:42px;
+  padding:11px;
+  border:1px solid var(--gold);
+  border-radius:5px;
+  background:var(--white);
+  color:var(--text);
+}
+.form-actions { margin-top:18px; }
+.notice {
+  margin-top:15px;
+  padding:13px;
+  background:var(--ivory);
+  color:var(--green);
+  font-size:13px;
+  line-height:1.6;
+}
+.table-wrap { overflow-x:auto; margin-top:20px; }
+table { width:100%; border-collapse:collapse; background:var(--white); }
+th,td {
+  padding:13px 10px;
+  border-bottom:1px solid var(--border);
+  text-align:left;
+  font-size:12px;
+}
+th { color:var(--muted); font-weight:normal; }
+.integration-list,.schedule-list { display:grid; gap:12px; margin-top:20px; }
+.integration-item,.schedule-item {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  padding:16px;
+  border:1px solid var(--border);
+  background:var(--white);
+}
+.integration-item strong,.schedule-item strong {
+  display:block;
+  color:var(--green);
+  font-size:14px;
+}
+.integration-item p,.schedule-item p {
+  margin:6px 0 0;
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.5;
+}
+.plan-price {
+  color:var(--green);
+  font:normal 32px Georgia,serif;
+  margin:15px 0;
+}
+[hidden] { display:none !important; }
 
-    /* PART 1 CSS ENDS HERE.
-       Add future CSS immediately ABOVE this comment. */
-
-    @media (max-width: 700px) {
-      .app-shell {
-        flex-direction: column;
-      }
-
-      .sidebar {
-        width: 100%;
-        padding: 22px;
-      }
-
-      .sidebar-divider {
-        margin: 18px 0;
-      }
-
-      .sidebar-footer {
-        margin-top: 18px;
-      }
-
-      .workspace {
-        padding: 22px 16px;
-      }
-
-      .welcome {
-        padding: 22px;
-      }
-
-      .topbar {
-        align-items: flex-start;
-        flex-direction: column;
-      }
-    }
-  </style>
+@media(max-width:850px) {
+  .sidebar {
+    position:static;
+    width:100%;
+    padding:20px;
+    overflow:visible;
+  }
+  .brand-caption { margin-bottom:15px; }
+  .sidebar-divider { margin:14px 0; }
+  .nav-heading { margin-top:14px; }
+  .navigation {
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:4px;
+  }
+  .nav-heading { grid-column:1/-1; }
+  .nav-item { margin:0; }
+  .sidebar-footer { margin-top:16px; }
+  .workspace { margin-left:0; padding:22px 16px; }
+}
+@media(max-width:520px) {
+  .dashboard-grid { grid-template-columns:1fr; }
+  .topbar { align-items:flex-start; flex-direction:column; }
+  .welcome,.panel { padding:20px; }
+  .welcome h2 { font-size:27px; }
+  .integration-item,.schedule-item { align-items:flex-start; }
+}
+</style>
 </head>
 
 <body>
-  <div class="app-shell">
+<div class="app-shell">
+  <aside class="sidebar">
+    <p class="brand">Count<span>On</span>Us</p>
+    <p class="brand-caption">Business Intelligence</p>
+    <div class="sidebar-divider"></div>
 
-    <aside class="sidebar">
-      <p class="brand">Count<span>On</span>Us</p>
+    <nav class="navigation" aria-label="Main navigation">
+      <p class="nav-heading">WORKSPACE</p>
+      <button class="nav-item active" data-page="overview">Overview</button>
+      <button class="nav-item" data-page="reports">Reports</button>
+      <button class="nav-item" data-page="schedules">Schedules</button>
+      <button class="nav-item" data-page="integrations">Integrations</button>
+      <p class="nav-heading">ACCOUNT</p>
+      <button class="nav-item" data-page="settings">Settings</button>
+      <button class="nav-item" data-page="plans">Plans &amp; Pricing</button>
+    </nav>
 
-      <p class="brand-caption">Business Intelligence</p>
+    <div class="sidebar-footer">
+      Your business, understood.<br>
+      Your next move, informed.
+    </div>
+  </aside>
 
-      <div class="sidebar-divider"></div>
-
-    
-
-<nav class="navigation">
-  <p class="nav-heading">WORKSPACE</p>
-
-  <button class="nav-item active" data-page="overview">
-    Overview
-  </button>
-
-  <button class="nav-item" data-page="reports">
-    Reports
-  </button>
-
-  <button class="nav-item" data-page="schedules">
-    Schedules
-  </button>
-
-  <button class="nav-item" data-page="integrations">
-    Integrations
-  </button>
-
-  <p class="nav-heading">ACCOUNT</p>
-
-  <button class="nav-item" data-page="settings">
-    Settings
-  </button>
-
-  <button class="nav-item" data-page="plans">
-    Plans & Pricing
-  </button>
-</nav>
-
-}
-
-
-      <div class="sidebar-footer">
-        Your business, understood.<br>
-        Your next move, informed.
+  <main class="workspace">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">CountOnUs Workspace</p>
+        <h1 id="page-title">Business Overview</h1>
       </div>
-    </aside>
+      <span class="status" id="app-status">Demo workspace</span>
+    </header>
 
-    <main class="workspace">
-
-      <header class="topbar">
-        <div>
-          <p class="eyebrow">CountOnUs Workspace</p>
-          <h1>Business Overview</h1>
-        </div>
-
-        <span class="status">Foundation ready</span>
-      </header>
-
-      <!-- PART 3: DASHBOARD CONTENT GOES HERE -->
-
-      <section class="welcome">
+    <!-- OVERVIEW -->
+    <section class="page active" id="overview">
+      <div class="welcome">
         <p class="eyebrow">Welcome to CountOnUs</p>
-
         <h2>Clarity behind every decision.</h2>
-
-        <p>
+        <p class="description">
           Bring your business data together, understand what is happening,
           and discover opportunities for growth — all in one place.
         </p>
+        <button class="primary-button" data-go="reports">Explore reports</button>
+      </div>
 
-        <span class="welcome-label">Your workspace starts here</span>
-      </section>
+      <div class="dashboard-grid">
+        <div class="metric-card">
+          <div class="metric-label">Reports created</div>
+          <div class="metric" id="report-count">0</div>
+          <p class="small-note">Created in this browser session</p>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Schedules saved</div>
+          <div class="metric" id="schedule-count">0</div>
+          <p class="small-note">Saved in this browser</p>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Connected sources</div>
+          <div class="metric" id="integration-count">0</div>
+          <p class="small-note">Demo connection status</p>
+        </div>
+      </div>
 
-      <!-- ADD FUTURE PAGE SECTIONS BELOW THIS LINE -->
+      <div class="panel">
+        <h2>Your workspace starts here</h2>
+        <p class="description">
+          Create a report, configure a sample schedule, or explore
+          the integrations available for a future connection.
+        </p>
+      </div>
+    </section>
 
-    </main>
-  </div>
+    <!-- REPORTS -->
+    <section class="page" id="reports" hidden>
+      <div class="panel">
+        <p class="eyebrow">Business intelligence</p>
+        <h2>Report builder</h2>
+        <p class="description">
+          Create a report record and export its details.
+          Live business analytics require a connected data source.
+        </p>
 
-  <script>
-    "use strict";
+        <form id="report-form">
+          <label class="form-label" for="report-name">Report name</label>
+          <input class="field" id="report-name" required
+                 maxlength="100" placeholder="e.g. Weekly sales review">
 
-    // PART 1 JavaScript foundation.
-    // Add future JavaScript inside this script,
-    // ABOVE the closing </script> tag.
+          <label class="form-label" for="report-type">Report category</label>
+          <select class="field" id="report-type">
+            <option>Sales performance</option>
+            <option>Revenue overview</option>
+            <option>Product performance</option>
+            <option>Marketing analytics</option>
+            <option>General business report</option>
+          </select>
 
-    console.log("CountOnUs foundation loaded successfully.");
+          <div class="form-actions">
+            <button class="primary-button" type="submit">Create report</button>
+          </div>
+        </form>
+        <div id="report-message" class="notice" hidden></div>
+      </div>
+
+      <div class="panel">
+        <h2>Your reports</h2>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Report</th><th>Category</th><th>Action</th></tr></thead>
+            <tbody id="report-rows">
+              <tr><td colspan="3">No reports created yet.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCHEDULES -->
+    <section class="page" id="schedules" hidden>
+      <div class="panel">
+        <p class="eyebrow">Automation</p>
+        <h2>Report schedules</h2>
+        <p class="description">
+          Save a proposed reporting frequency. Automatic delivery
+          is not enabled in this frontend-only version.
+        </p>
+
+        <form id="schedule-form">
+          <label class="form-label" for="schedule-name">Schedule name</label>
+          <input class="field" id="schedule-name" required maxlength="100"
+                 placeholder="e.g. Monday sales report">
+
+          <label class="form-label" for="schedule-frequency">Frequency</label>
+          <select class="field" id="schedule-frequency">
+            <option>Daily</option>
+            <option selected>Weekly</option>
+            <option>Monthly</option>
+          </select>
+
+          <label class="form-label" for="schedule-email">Recipient email</label>
+          <input class="field" id="schedule-email" type="email" required
+                 placeholder="you@example.com">
+
+          <div class="form-actions">
+            <button class="primary-button" type="submit">Save schedule</button>
+          </div>
+        </form>
+        <div id="schedule-message" class="notice" hidden></div>
+      </div>
+
+      <div class="panel">
+        <h2>Saved schedules</h2>
+        <div id="schedule-list" class="schedule-list">
+          <p class="small-note">No schedules saved yet.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- INTEGRATIONS -->
+    <section class="page" id="integrations" hidden>
+      <div class="panel">
+        <p class="eyebrow">Data sources</p>
+        <h2>Integrations</h2>
+        <p class="description">
+          Explore planned data sources. These controls do not authorize
+          accounts or connect to external services yet.
+        </p>
+        <div class="integration-list" id="integration-list"></div>
+        <div class="notice">
+          Security note: never paste API keys, passwords, or secret tokens
+          into this demo. Real integrations need secure server-side
+          authentication and permission checks.
+        </div>
+      </div>
+    </section>
+
+    <!-- SETTINGS -->
+    <section class="page" id="settings" hidden>
+      <div class="panel">
+        <p class="eyebrow">Preferences</p>
+        <h2>Workspace settings</h2>
+
+        <form id="settings-form">
+          <label class="form-label" for="business-name">Business name</label>
+          <input class="field" id="business-name" maxlength="100"
+                 placeholder="Your business">
+
+          <label class="form-label" for="owner-email">Contact email</label>
+          <input class="field" id="owner-email" type="email"
+                 placeholder="you@example.com">
+
+          <div class="form-actions">
+            <button class="primary-button" type="submit">Save preferences</button>
+          </div>
+        </form>
+        <div id="settings-message" class="notice" hidden></div>
+      </div>
+    </section>
+
+    <!-- PLANS -->
+    <section class="page" id="plans" hidden>
+      <div class="panel">
+        <p class="eyebrow">CountOnUs membership</p>
+        <h2>Plans &amp; Pricing</h2>
+        <p class="description">
+          Illustrative plan information. Payments and subscriptions are
+          not connected in this version.
+        </p>
+      </div>
+
+      <div class="dashboard-grid">
+        <div class="metric-card">
+          <p class="eyebrow">For individuals</p>
+          <h2>Pro</h2>
+          <div class="plan-price">$49 <span class="small-note">/ month</span></div>
+          <p class="description">Business reporting for an individual account.</p>
+          <button class="secondary-button" data-plan="Pro">Select Pro</button>
+        </div>
+
+        <div class="metric-card">
+          <p class="eyebrow">For agencies</p>
+          <h2>Master</h2>
+          <div class="plan-price">$99 <span class="small-note">/ month</span></div>
+          <p class="description">Agency-oriented reporting and white-label ambitions.</p>
+          <button class="secondary-button" data-plan="Master">Select Master</button>
+        </div>
+
+        <div class="metric-card">
+          <p class="eyebrow">Next step</p>
+          <h2>Secure checkout</h2>
+          <p class="description">
+            A payment provider and server-side subscription verification
+            must be configured before accepting payments.
+          </p>
+        </div>
+      </div>
+      <div id="plan-message" class="notice" hidden></div>
+    </section>
+  </main>
+</div>
+
+<script>
+"use strict";
+
+const pageTitles = {
+  overview: "Business Overview",
+  reports: "Reports",
+  schedules: "Schedules",
+  integrations: "Integrations",
+  settings: "Workspace Settings",
+  plans: "Plans & Pricing"
+};
+
+const reports = [];
+const schedules = [];
+const integrations = [
+  { name: "CSV Upload", detail: "Import business data from a CSV file." },
+  { name: "Google Analytics", detail: "Planned website analytics connection." },
+  { name: "Shopify", detail: "Planned store and sales connection." }
+];
+
+function showPage(pageId) {
+  const page = document.getElementById(pageId);
+  if (!page || !pageTitles[pageId]) return;
+
+  document.querySelectorAll(".page").forEach(section => {
+    section.classList.remove("active");
+    section.hidden = true;
+  });
+
+  page.hidden = false;
+  page.classList.add("active");
+
+  document.querySelectorAll(".nav-item").forEach(button => {
+    const selected = button.dataset.page === pageId;
+    button.classList.toggle("active", selected);
+    if (selected) button.setAttribute("aria-current", "page");
+    else button.removeAttribute("aria-current");
+  });
+
+  document.getElementById("page-title").textContent = pageTitles[pageId];
+  document.title = pageTitles[pageId] + " | CountOnUs";
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+document.querySelectorAll(".nav-item").forEach(button => {
+  button.addEventListener("click", () => showPage(button.dataset.page));
+});
+
+document.querySelectorAll("[data-go]").forEach(button => {
+  button.addEventListener("click", () => showPage(button.dataset.go));
+});
+
+function updateMetrics() {
+  document.getElementById("report-count").textContent = reports.length;
+  document.getElementById("schedule-count").textContent = schedules.length;
+  document.getElementById("integration-count").textContent =
+    integrations.filter(item => item.connected).length;
+}
+
+function showMessage(id, message) {
+  const element = document.getElementById(id);
+  element.textContent = message;
+  element.hidden = false;
+}
+
+function addCell(row, text) {
+  const cell = document.createElement("td");
+  cell.textContent = text;
+  row.appendChild(cell);
+  return cell;
+}
+
+function renderReports() {
+  const tbody = document.getElementById("report-rows");
+  tbody.replaceChildren();
+
+  if (!reports.length) {
+    const row = document.createElement("tr");
+    const cell = addCell(row, "No reports created yet.");
+    cell.colSpan = 3;
+    tbody.appendChild(row);
+    return;
+  }
+
+  reports.forEach((report, index) => {
+    const row = document.createElement("tr");
+    addCell(row, report.name);
+    addCell(row, report.type);
+    const cell = document.createElement("td");
+    const button = document.createElement("button");
+    button.className = "secondary-button";
+    button.type = "button";
+    button.textContent = "Export CSV";
+    button.addEventListener("click", () => exportReport(index));
+    cell.appendChild(button);
+    row.appendChild(cell);
+    tbody.appendChild(row);
+  });
+}
+
+function exportReport(index) {
+  const report = reports[index];
+  if (!report) return;
+
+  const csv = [
+    ["Report", "Category", "Created"],
+    [report.name, report.type, report.created]
+  ].map(row => row.map(value =>
+    '"' + String(value).replace(/"/g, '""') + '"'
+  ).join(",")).join("\r\n");
+
+  const blob = new Blob(["\uFEFF" + csv], {
+    type: "text/csv;charset=utf-8;"
+  });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "countonus-report.csv";
+  link.click();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+document.getElementById("report-form").addEventListener("submit", event => {
+  event.preventDefault();
+
+  const name = document.getElementById("report-name").value.trim();
+  const type = document.getElementById("report-type").value;
+  if (!name) return;
+
+  reports.push({
+    name,
+    type,
+    created: new Date().toISOString().slice(0, 10)
+  });
+
+  renderReports();
+  updateMetrics();
+  event.target.reset();
+  showMessage(
+    "report-message",
+    "Report record created. This demo does not yet analyze real business data."
+  );
+});
+
+function renderSchedules() {
+  const container = document.getElementById("schedule-list");
+  container.replaceChildren();
+
+  if (!schedules.length) {
+    const empty = document.createElement("p");
+    empty.className = "small-note";
+    empty.textContent = "No schedules saved yet.";
+    container.appendChild(empty);
+    return;
+  }
+
+  schedules.forEach(schedule => {
+    const item = document.createElement("div");
+    item.className = "schedule-item";
+
+    const details = document.createElement("div");
+    const title = document.createElement("strong");
+    title.textContent = schedule.name;
+    const description = document.createElement("p");
+    description.textContent =
+      schedule.frequency + " · " + schedule.email +
+      " · Delivery not enabled";
+    details.append(title, description);
+
+    item.appendChild(details);
+    container.appendChild(item);
+  });
+}
+
+document.getElementById("schedule-form").addEventListener("submit", event => {
+  event.preventDefault();
+
+  schedules.push({
+    name: document.getElementById("schedule-name").value.trim(),
+    frequency: document.getElementById("schedule-frequency").value,
+    email: document.getElementById("schedule-email").value.trim()
+  });
+
+  renderSchedules();
+  updateMetrics();
+  event.target.reset();
+  showMessage(
+    "schedule-message",
+    "Schedule saved for this session only. Automatic email delivery is not configured."
+  );
+});
+
+function renderIntegrations() {
+  const container = document.getElementById("integration-list");
+  container.replaceChildren();
+
+  integrations.forEach(integration => {
+    const item = document.createElement("div");
+    item.className = "integration-item";
+
+    const details = document.createElement("div");
+    const title = document.createElement("strong");
+    title.textContent = integration.name;
+    const description = document.createElement("p");
+    description.textContent = integration.detail;
+    details.append(title, description);
+
+    const button = document.createElement("button");
+    button.className = "secondary-button";
+    button.type = "button";
+    button.textContent = integration.connected ? "Disconnect" : "Learn more";
+
+    button.addEventListener("click", () => {
+      if (integration.name === "CSV Upload") {
+        showMessage(
+          "integration-message",
+          "CSV upload needs a validated import workflow before real data can be processed."
+        );
+      } else {
+        showMessage(
+          "integration-message",
+          integration.name + " needs a secure authorization flow before it can connect."
+        );
+      }
+    });
+
+    item.append(details, button);
+    container.appendChild(item);
+  });
+
+  const message = document.createElement("div");
+  message.id = "integration-message";
+  message.className = "notice";
+  message.hidden = true;
+  container.after(message);
+}
+
+document.getElementById("settings-form").addEventListener("submit", event => {
+  event.preventDefault();
+
+  const name = document.getElementById("business-name").value.trim();
+  const email = document.getElementById("owner-email").value.trim();
+
+  try {
+    localStorage.setItem("countonus-business-name", name);
+    localStorage.setItem("countonus-owner-email", email);
+    showMessage("settings-message", "Preferences saved in this browser.");
+  } catch (error) {
+    showMessage(
+      "settings-message",
+      "Browser storage is unavailable. Your preferences were not saved."
+    );
+  }
+});
+
+try {
+  document.getElementById("business-name").value =
+    localStorage.getItem("countonus-business-name") || "";
+  document.getElementById("owner-email").value =
+    localStorage.getItem("countonus-owner-email") || "";
+} catch (error) {
+  // The page remains usable when browser storage is unavailable.
+}
+
+document.querySelectorAll("[data-plan]").forEach(button => {
+  button.addEventListener("click", () => {
+    showMessage(
+      "plan-message",
+      button.dataset.plan +
+      " selected for preview. No subscription or payment was created."
+    );
+  });
+});
+
+renderReports();
+renderSchedules();
+renderIntegrations();
+updateMetrics();
+
+console.log("CountOnUs workspace loaded.");
 </script>
-  
-<!-- COUNTONUS PART 2: DASHBOARD STYLING -->
-<style>
-/* Navigation buttons */
-.nav-button {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  width: 100%;
-  padding: 13px 16px;
-  margin: 5px 0;
-  border: 1px solid transparent;
-  border-radius: 8px;
-  background: transparent;
-  color: #F7F4EC;
-  text-align: left;
-  font-size: 14px;
-  cursor: pointer;
-  transition: background .2s ease, color .2s ease;
-}
-
-.nav-button:hover {
-  background: rgba(255,255,255,.10);
-}
-
-.nav-button.active {
-  background: #F7F4EC;
-  color: #224A33;
-  font-weight: 600;
-}
-
-/* Main dashboard workspace */
-.workspace {
-  background: #F7F4EC;
-  color: #224A33;
-  min-height: 100vh;
-  padding: 30px;
-  box-sizing: border-box;
-}
-
-.page-title {
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(27px, 4vw, 38px);
-  font-weight: 400;
-  margin: 0 0 10px;
-}
-
-.page-description {
-  color: #69746A;
-  font-size: 14px;
-  line-height: 1.7;
-}
-
-/* Dashboard cards */
-.dashboard-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 18px;
-  margin: 28px 0;
-}
-
-.dashboard-card {
-  background: #FFFEFA;
-  border: 1px solid #E5DFD2;
-  border-radius: 10px;
-  padding: 23px;
-  min-width: 0;
-}
-
-.dashboard-card h3 {
-  color: #69746A;
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  margin: 0 0 18px;
-}
-
-.dashboard-card .metric {
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 32px;
-  color: #224A33;
-}
-
-/* Buttons */
-.primary-button {
-  background: #224A33;
-  color: #FFFEFA;
-  border: 1px solid #224A33;
-  border-radius: 6px;
-  padding: 12px 18px;
-  cursor: pointer;
-  font-size: 14px;
-}
-
-.primary-button:hover {
-  background: #315C43;
-}
-
-.secondary-button {
-  background: transparent;
-  color: #224A33;
-  border: 1px solid #D8C9A9;
-  border-radius: 6px;
-  padding: 11px 16px;
-  cursor: pointer;
-}
-
-/* Forms and tables */
-.dashboard-input,
-.dashboard-select {
-  width: 100%;
-  max-width: 100%;
-  box-sizing: border-box;
-  padding: 12px;
-  background: #FFFEFA;
-  color: #224A33;
-  border: 1px solid #D8C9A9;
-  border-radius: 6px;
-  margin: 7px 0 15px;
-}
-
-.dashboard-table {
-  width: 100%;
-  border-collapse: collapse;
-  background: #FFFEFA;
-}
-
-.dashboard-table th,
-.dashboard-table td {
-  padding: 14px;
-  text-align: left;
-  border-bottom: 1px solid #E5DFD2;
-  font-size: 13px;
-}
-
-.dashboard-table th {
-  color: #69746A;
-  font-weight: 500;
-}
-
-/* Small screens and tablets */
-@media (max-width: 760px) {
-  .workspace {
-    padding: 20px 14px;
-  }
-
-  .dashboard-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .dashboard-card .metric {
-    font-size: 27px;
-  }
-
-  .dashboard-table th,
-  .dashboard-table td {
-    padding: 10px 7px;
-    font-size: 12px;
-  }
-}
-</style>
-<!-- END COUNTONUS PART 2 -->
-
-<!-- COUNTONUS PART 2: DASHBOARD STYLING -->
-<style>
-/* Navigation buttons */
-.nav-button {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  width: 100%;
-  padding: 13px 16px;
-  margin: 5px 0;
-  border: 1px solid transparent;
-  border-radius: 8px;
-  background: transparent;
-  color: #F7F4EC;
-  text-align: left;
-  font-size: 14px;
-  cursor: pointer;
-  transition: background .2s ease, color .2s ease;
-}
-
-.nav-button:hover {
-  background: rgba(255,255,255,.10);
-}
-
-.nav-button.active {
-  background: #F7F4EC;
-  color: #224A33;
-  font-weight: 600;
-}
-
-/* Main dashboard workspace */
-.workspace {
-  background: #F7F4EC;
-  color: #224A33;
-  min-height: 100vh;
-  padding: 30px;
-  box-sizing: border-box;
-}
-
-.page-title {
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(27px, 4vw, 38px);
-  font-weight: 400;
-  margin: 0 0 10px;
-}
-
-.page-description {
-  color: #69746A;
-  font-size: 14px;
-  line-height: 1.7;
-}
-
-/* Dashboard cards */
-.dashboard-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 18px;
-  margin: 28px 0;
-}
-
-.dashboard-card {
-  background: #FFFEFA;
-  border: 1px solid #E5DFD2;
-  border-radius: 10px;
-  padding: 23px;
-  min-width: 0;
-}
-
-.dashboard-card h3 {
-  color: #69746A;
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  margin: 0 0 18px;
-}
-
-.dashboard-card .metric {
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 32px;
-  color: #224A33;
-}
-
-/* Buttons */
-.primary-button {
-  background: #224A33;
-  color: #FFFEFA;
-  border: 1px solid #224A33;
-  border-radius: 6px;
-  padding: 12px 18px;
-  cursor: pointer;
-  font-size: 14px;
-}
-
-.primary-button:hover {
-  background: #315C43;
-}
-
-.secondary-button {
-  background: transparent;
-  color: #224A33;
-  border: 1px solid #D8C9A9;
-  border-radius: 6px;
-  padding: 11px 16px;
-  cursor: pointer;
-}
-
-/* Forms and tables */
-.dashboard-input,
-.dashboard-select {
-  width: 100%;
-  max-width: 100%;
-  box-sizing: border-box;
-  padding: 12px;
-  background: #FFFEFA;
-  color: #224A33;
-  border: 1px solid #D8C9A9;
-  border-radius: 6px;
-  margin: 7px 0 15px;
-}
-
-.dashboard-table {
-  width: 100%;
-  border-collapse: collapse;
-  background: #FFFEFA;
-}
-
-.dashboard-table th,
-.dashboard-table td {
-  padding: 14px;
-  text-align: left;
-  border-bottom: 1px solid #E5DFD2;
-  font-size: 13px;
-}
-
-.dashboard-table th {
-  color: #69746A;
-  font-weight: 500;
-}
-
-/* Small screens and tablets */
-@media (max-width: 760px) {
-  .workspace {
-    padding: 20px 14px;
-  }
-
-  .dashboard-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .dashboard-card .metric {
-    font-size: 27px;
-  }
-
-  .dashboard-table th,
-  .dashboard-table td {
-    padding: 10px 7px;
-    font-size: 12px;
-  }
-}
-</style>
-<!-- END COUNTONUS PART 2 -->
-
-  
-  
 </body>
 </html>
